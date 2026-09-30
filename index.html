@@ -367,6 +367,36 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 .detail-buttons .svx-share{background:#128c4a;color:#fff;border-color:#0d6e3a}
 .svx-err{color:#b42318;font-weight:700;font-size:13.5px;margin:6px 0}
 @media(min-width:691px){#svx-fab{bottom:84px}.svx-sheet{border-left:1px solid #dfad39;border-right:1px solid #dfad39}}
+
+/* v3.2: larger header identity and four distinct action colors. CSS only. */
+#root .site-nav{min-height:100px;gap:14px}
+#root .site-identity{gap:12px;flex-shrink:0}
+#root .site-identity img{width:74px;height:74px;flex-shrink:0}
+#root .site-identity strong{font-size:26px;line-height:1.15;white-space:nowrap}
+#root .site-identity span{font-size:10px;line-height:1.4;letter-spacing:.08em;margin-top:5px;white-space:nowrap}
+#root .fixed-actions > :nth-child(1){background:#946b11;color:#fff}
+#root .fixed-actions > :nth-child(2){background:#167347;color:#fff}
+#root .fixed-actions > :nth-child(3){background:#116779;color:#fff}
+#root .fixed-actions > :nth-child(4),#root .site-enquire{background:#b64d1a;color:#fff}
+#root .fixed-actions > :hover,#root .site-enquire:hover{filter:brightness(1.08)}
+@media(min-width:691px) and (max-width:1000px){
+ #root .site-nav{flex-wrap:wrap}
+ #root .site-top-links{flex:1 1 320px}
+}
+@media(max-width:690px){
+ #root .site-enquire{display:none}
+ #root .site-nav{min-height:88px;gap:8px;padding:11px}
+ #root .site-identity{gap:10px;flex:1;min-width:0}
+ #root .site-identity img{width:66px;height:66px}
+ #root .site-identity strong{font-size:20px;line-height:1.15}
+ #root .site-identity span{font-size:8.5px;letter-spacing:.02em;margin-top:5px}
+}
+@media(max-width:359px){
+ #root .site-identity{gap:8px}
+ #root .site-identity img{width:58px;height:58px}
+ #root .site-identity strong{font-size:17px}
+ #root .site-identity span{font-size:7.5px}
+}
 </style>
 <button id="svx-fab" type="button" aria-haspopup="dialog" aria-controls="svx-panel">&#9881; Tools</button>
 <div id="svx-panel" hidden role="dialog" aria-modal="true" aria-label="SV Prime Realty tools">
