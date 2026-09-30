@@ -650,4 +650,71 @@ else injectAll();
 })();
 </script>
 
+<!-- SV PRIME REALTY v3: additive visibility layer; original v2 left unchanged. -->
+<style id="svp-style">
+.svp-badge{display:inline-flex!important;align-items:center;gap:4px;background:#fff3cd!important;color:#775200!important;border:1px solid #dfad39!important;border-radius:6px!important;padding:4px 8px!important;font:800 10px/1.4 Arial,sans-serif!important;align-self:flex-start;flex-shrink:0;letter-spacing:.6px;margin:0 5px 8px 0!important;width:max-content;max-width:100%}
+.svp-badge.private{background:#eaf0f7!important;color:#17324d!important;border-color:#899cb0!important}.svp-badge.demo{background:#fff!important;color:#526578!important;border-color:#bcc9d5!important}
+#root article.property:not([data-svp-ready]),#root article.featured-card:not([data-svp-ready]),#root .section-results>article:not([data-svp-ready]),#root .property-detail.premium-property:not([data-svp-ready]){visibility:hidden}
+[data-svp-hidden="true"]{display:none!important}#svp-entry{margin:0;padding:11px 16px;text-align:left;border:0;border-top:1px solid #ffffff25;background:#133652;color:#f2c75c;font:700 14px/1.4 Arial,sans-serif;cursor:pointer}
+#svp-private[hidden],#svp-pin[hidden],#svp-library[hidden],#svp-error[hidden]{display:none!important}
+#svp-private{background:#fff;border:1px solid #dce3e9;border-radius:14px;padding:16px 14px;margin-bottom:14px}
+#svp-private h2{margin:0 0 5px;color:#092744;font-size:20px}#svp-private p{line-height:1.55}
+.svp-row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}.svp-small-button{border:1px solid #b9c6d2;border-radius:8px;background:#f4f7f9;color:#17324d;padding:10px 13px;font-size:14px;font-weight:700;cursor:pointer;min-height:44px}
+.svp-demo-card{background:#f6f9fc;border:1px solid #cad6e2;border-radius:12px;padding:14px;margin:14px 0}.svp-demo-card h3{font-size:17px;color:#092744;margin:0 0 7px}.svp-demo-card p{font-size:13px;color:#526578;margin:6px 0}.svp-demo-card .svp-illustration{height:90px;border-radius:8px;margin-bottom:12px;background:linear-gradient(135deg,#092744,#315d83);display:grid;place-items:center;color:#f2c75c;font-size:40px}
+#svp-status{font-size:13px;color:#526578;margin:8px 0}.svp-manager{padding:12px 0;border-top:1px solid #dce3e9}.svp-manager strong{display:block;font-size:14px;overflow-wrap:anywhere}.svp-manager select{margin-top:8px;width:100%;padding:10px;border:1px solid #b9c6d2;border-radius:8px;background:#fff;font-size:14px}
+#svp-active{position:fixed;left:12px;bottom:78px;z-index:61;border:1px solid #dfad39;background:#092744;color:#f2c75c;border-radius:999px;font-size:12px;padding:12px;font-weight:700;cursor:pointer}#svp-active[hidden]{display:none}#svp-editor-field{grid-column:1/-1;margin-bottom:12px}#svp-editor-field select{display:block;width:100%;padding:11px;border:1px solid #b9c6d2;border-radius:8px;font-size:15px;background:#fff}#svp-editor-field small{display:block;font-size:12px;color:#526578;line-height:1.5;margin-top:5px}
+</style>
+<button id="svp-active" type="button" hidden>🔓 Private on · Lock</button>
+<script id="svp-script">
+(function(){
+'use strict';
+var KEY='svprime-static:svprime-property-search-v1', PRIVACY='svprime-visibility-v3', unlocked=false, visibility={},pendingSave=null,lastEditor=null;
+try{visibility=JSON.parse(localStorage.getItem(PRIVACY)||'{}')||{}}catch(e){}
+function $(id){return document.getElementById(id)}
+function listings(){try{var a=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
+function privateRecord(l){return (visibility[l.id]||l.visibility||(l.private===true?'PRIVATE':'PUBLIC')).toUpperCase()==='PRIVATE'}
+function persist(){try{localStorage.setItem(PRIVACY,JSON.stringify(visibility))}catch(e){$('svp-error').textContent='Visibility could not be saved on this device.';$('svp-error').hidden=false}}
+var panel=$('svx-panel'),body=panel.querySelector('.svx-body');
+var entry=document.createElement('button');entry.id='svp-entry';entry.type='button';entry.textContent='🔒 Private listings · PIN';panel.querySelector('.svx-tabs').after(entry);
+var area=document.createElement('section');area.id='svp-private';area.hidden=true;area.innerHTML='<div class="svp-row"><h2>Private listings</h2><button id="svp-lock" type="button" class="svp-small-button" hidden>🔒 Lock / hide again</button></div><p id="svp-status" role="status"></p><form id="svp-pin"><label class="svx-field">Enter your PIN<input id="svp-pin-input" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="4-digit PIN" aria-describedby="svp-error"></label><p id="svp-error" class="svx-err" role="alert" hidden></p><button type="submit" class="svx-btn">Unlock private listings</button></form><div id="svp-library" hidden></div><p class="svx-note">Light privacy only, not secure storage. The PIN and hidden data are in this static app. Do not store sensitive owner information here.</p>';
+body.prepend(area);
+function showPrivate(){panel.hidden=false;document.body.style.overflow='hidden';panel.querySelectorAll('[data-svx-tab]').forEach(function(b){b.classList.remove('is-on')});['emi','check','visit'].forEach(function(k){$('svx-'+k).hidden=true});area.hidden=false;renderLibrary();body.scrollTop=0;if(!unlocked)$('svp-pin-input').focus()}
+entry.addEventListener('click',showPrivate);
+panel.querySelectorAll('[data-svx-tab]').forEach(function(b){b.addEventListener('click',function(){area.hidden=true})});
+function lock(){unlocked=false;$('svp-pin-input').value='';$('svp-error').hidden=true;update();if(!panel.hidden&&!area.hidden)$('svp-pin-input').focus()}
+$('svp-lock').addEventListener('click',lock);$('svp-active').addEventListener('click',lock);
+$('svp-pin').addEventListener('submit',function(ev){ev.preventDefault();if($('svp-pin-input').value!=='9177'){$('svp-error').textContent='Incorrect PIN. మళ్లీ ప్రయత్నించండి.';$('svp-error').hidden=false;return}unlocked=true;$('svp-pin-input').value='';$('svp-error').hidden=true;update()});
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&!panel.hidden){panel.hidden=true;document.body.style.overflow='';$('svx-fab').focus()}});
+function badge(priv){var el=document.createElement('span');el.className='svp-badge'+(priv?' private':'');el.textContent=priv?'🔒 PRIVATE':'PUBLIC';return el}
+function demo(){var el=document.createElement('article');el.className='svp-demo-card';el.setAttribute('data-svp-demo','true');el.innerHTML='<div class="svp-illustration" aria-hidden="true">⌂</div><span class="svp-badge private">🔒 PRIVATE</span><span class="svp-badge demo">DEMO</span><h3>Sample private property</h3><p>Hyderabad · Demo only</p><p>This is a sample to show the private view. It is not a real listing, has no price or owner contact, and is not available for sale.</p>';return el}
+function renderLibrary(){
+entry.textContent=unlocked?'🔓 Private listings · Unlocked':'🔒 Private listings · PIN';$('svp-active').hidden=!unlocked;$('svp-lock').hidden=!unlocked;$('svp-pin').hidden=unlocked;$('svp-library').hidden=!unlocked;
+$('svp-status').textContent=unlocked?'Private view is on for this tab. Lock before showing the app to someone else.':'Private properties are hidden. PIN ఇచ్చి చూడండి.';
+var library=$('svp-library');library.replaceChildren();if(!unlocked)return;
+library.appendChild(demo());
+var heading=document.createElement('h3');heading.textContent='Manage saved listing visibility';library.appendChild(heading);
+var records=listings();if(!records.length){var empty=document.createElement('p');empty.className='svx-muted';empty.textContent='No saved listings on this device yet. Add a property, then choose PUBLIC or PRIVATE here.';library.appendChild(empty)}
+records.forEach(function(l){var row=document.createElement('div');row.className='svp-manager';var name=document.createElement('strong');name.textContent=l.project||'Saved property';row.appendChild(name);var select=document.createElement('select');select.setAttribute('aria-label','Visibility for '+name.textContent);['PUBLIC','PRIVATE'].forEach(function(v){var opt=document.createElement('option');opt.value=v;opt.textContent=v==='PUBLIC'?'PUBLIC - visible in normal view':'PRIVATE - only after PIN';select.appendChild(opt)});select.value=privateRecord(l)?'PRIVATE':'PUBLIC';select.addEventListener('change',function(){visibility[l.id]=select.value;persist();update()});row.appendChild(select);library.appendChild(row)})
+}
+/* Read only the article's React identity, never modify React state or its bundle. */
+function identity(el){var k=Object.keys(el).find(function(v){return v.indexOf('__reactFiber$')===0});var f=k&&el[k];for(var i=0;f&&i<5;i++,f=f.return){if(f.key)return String(f.key)}return ''}
+function recordFor(el,records){var id=identity(el);var exact=records.find(function(l){return String(l.id)===id});if(exact)return exact;var h=el.querySelector('.property-head h3,h3,.featured-body strong,.subpage-header h1');var title=h?h.textContent.trim():'';var matches=records.filter(function(l){return l.project===title});return matches.find(privateRecord)||matches[0]||null}
+function injectEditor(){var editor=document.querySelector('#root .editor');if(!editor){lastEditor=null;return}if(editor.querySelector('#svp-editor-field'))return;var nameInput=editor.querySelector('input');var l=listings().find(function(r){return nameInput&&r.project===nameInput.value});var label=document.createElement('label');label.id='svp-editor-field';label.textContent='Listing visibility';var select=document.createElement('select');select.id='svp-editor-select';select.innerHTML='<option value="PUBLIC">PUBLIC - visible in normal view</option><option value="PRIVATE">PRIVATE - PIN required to view</option>';select.value=l&&privateRecord(l)?'PRIVATE':'PUBLIC';label.appendChild(select);var note=document.createElement('small');note.textContent='This controls display on this device only. PUBLIC does not upload or publish your listing.';label.appendChild(note);editor.prepend(label);lastEditor=editor}
+function decorate(){
+var records=listings();document.querySelectorAll('#root article.property,#root article.featured-card,#root .section-results>article,#root .property-detail.premium-property').forEach(function(card){var l=recordFor(card,records),priv=!!l&&privateRecord(l);card.setAttribute('data-svp-ready','true');card.setAttribute('data-svp-hidden',priv&&!unlocked?'true':'false');var target=card.querySelector('.property-head,.featured-body,.subpage-header')||(card.matches('.section-results>article')?card.children[1]:card);var mark=target.querySelector(':scope > .svp-badge');if(!mark){mark=badge(priv);target.prepend(mark)}else{mark.className='svp-badge'+(priv?' private':'');mark.textContent=priv?'🔒 PRIVATE':'PUBLIC'}});
+var title=document.querySelector('#search-results .results-title');if(title){var count=document.querySelectorAll('#search-results article.property[data-svp-hidden="false"]').length;var countNode=title.lastChild;if(countNode&&countNode.nodeType===3)countNode.nodeValue=String(count)}
+var mainList=document.querySelector('#search-results .list');if(mainList){var hasVisible=!!mainList.querySelector('article.property[data-svp-hidden="false"]');var emptyNotice=mainList.querySelector('.svp-empty');if(!hasVisible&&!unlocked&&!emptyNotice){emptyNotice=document.createElement('p');emptyNotice.className='svp-empty empty';emptyNotice.textContent='No public properties match. Add a public property or change your filters.';mainList.prepend(emptyNotice)}else if((hasVisible||unlocked)&&emptyNotice)emptyNotice.remove()}
+var detail=document.querySelector('.property-detail[data-svp-hidden="true"]');var lockedNotice=document.querySelector('#svp-detail-locked');if(detail&&!lockedNotice){lockedNotice=document.createElement('div');lockedNotice.id='svp-detail-locked';lockedNotice.className='empty';lockedNotice.textContent='🔒 Private property. Open Tools → Private listings to unlock, or return Home.';detail.after(lockedNotice)}else if(!detail&&lockedNotice)lockedNotice.remove();
+var container=document.querySelector('#search-results .list')||document.querySelector('#search-results .empty');document.querySelectorAll('#root [data-svp-demo]').forEach(function(el){if(!unlocked||el.parentNode!==container)el.remove()});if(unlocked&&container&&!container.querySelector('[data-svp-demo]'))container.appendChild(demo());
+injectEditor();
+}
+function update(){renderLibrary();decorate()}
+/* Capture visibility before the untouched editor saves, then bind it to the saved ID. */
+document.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b||b.textContent.trim()!=='Save property')return;var editor=b.closest('.editor');if(!editor)return;var inputs=editor.querySelectorAll('input');var project=inputs[0]&&inputs[0].value.trim();var select=$('svp-editor-select');var before=listings();pendingSave={project:project,value:select?select.value:'PUBLIC',before:JSON.stringify(before)};setTimeout(function(){if(!pendingSave)return;var after=listings();if(JSON.stringify(after)!==pendingSave.before){var l=after.find(function(r){return r.project===pendingSave.project});if(l){visibility[l.id]=pendingSave.value;persist()}}pendingSave=null;update()},50)},true);
+var scheduled=false;new MutationObserver(function(mutations){if(scheduled||!mutations.some(function(m){return m.type==='childList'&&Array.from(m.addedNodes).concat(Array.from(m.removedNodes)).some(function(n){return n.nodeType===1&&!n.matches('.svp-badge,[data-svp-demo],#svp-editor-field,.svp-empty,#svp-detail-locked')})}))return;scheduled=true;queueMicrotask(function(){scheduled=false;decorate()})}).observe($('root'),{childList:true,subtree:true});
+window.addEventListener('storage',function(){try{visibility=JSON.parse(localStorage.getItem(PRIVACY)||'{}')||{}}catch(e){}update()});
+window.addEventListener('pageshow',function(ev){if(ev.persisted)lock()});update();
+})();
+</script>
+
 </body></html>
