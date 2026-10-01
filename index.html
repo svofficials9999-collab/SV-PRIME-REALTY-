@@ -474,16 +474,17 @@ window.addEventListener('pageshow',ev=>{if(ev.persisted)lock()});document.addEve
       <section id="svx-check" class="svx-card" hidden aria-label="Telangana buyer document checklist">
         <span class="svx-kicker">Buy safely with D. Srinivas</span>
         <h2>Telangana Buyer Document Checklist</h2>
-        <p class="svx-muted">Before you pay any advance on a plot or flat in Telangana, check these four things on the official government sites. It takes 15 minutes and protects your money.</p>
+        <p class="svx-muted">Before paying an advance, check the property records on these official government sites. These checks do not replace a lawyer's title review.</p>
         <ol class="svx-check">
-          <li><span class="svx-num">1</span><span><b>TG-RERA project verification</b><br><span class="svx-muted">Under TG-RERA, new projects above the legal thresholds must be registered before they are advertised or sold. Search the project or promoter name and confirm the registration number, approved plans and validity.</span><br><a class="svx-open" href="https://rerait.telangana.gov.in/" target="_blank" rel="noopener noreferrer">Open TG-RERA site ↗</a></span></li>
-          <li><span class="svx-num">2</span><span><b>HMDA LP number verification</b><br><span class="svx-muted">For layouts, verify the LP (Layout Permission) number on the HMDA DPMS portal.</span><br><a class="svx-open" href="https://dpms.hmda.gov.in/" target="_blank" rel="noopener noreferrer">Open HMDA DPMS site ↗</a></span></li>
-          <li><span class="svx-num">3</span><span><b>Encumbrance Certificate (EC) search</b><br><span class="svx-muted">The EC shows registered loans, mortgages and claims on the property. Always check EC for the last 15-30 years before buying.</span><br><a class="svx-open" href="https://registration.telangana.gov.in/ec.htm" target="_blank" rel="noopener noreferrer">Open EC search (Registration Dept) ↗</a></span></li>
-          <li><span class="svx-num">4</span><span><b>TG-bPASS document checklist</b><br><span class="svx-muted">For buildings, see the full permission and document checklist on the TG-bPASS portal so you know what approvals the builder must hold.</span><br><a class="svx-open" href="https://tgbpass.telangana.gov.in/others/checklist" target="_blank" rel="noopener noreferrer">Open TG-bPASS checklist ↗</a></span></li>
+          <li><span class="svx-num">1</span><span><b>TG-RERA project search</b><br><span class="svx-muted">Search by project name, promoter or RERA number. Match the property details and registration status. Complete the site's CAPTCHA when asked.</span><br><a class="svx-open" target="_blank" rel="noopener noreferrer" href="https://rerait.telangana.gov.in/SearchList/Search">RERA Project Search ↗</a></span></li>
+          <li><span class="svx-num">2</span><span><b>HMDA layout / LP number check</b><br><span class="svx-muted">For older HMDA records, open Public Search and enter the LP number in "Permit No." Match the village, survey number and approved plan. For newer approvals, check BuildNow. BuildNow Citizen Search asks for mobile OTP.</span><br><a class="svx-open" target="_blank" rel="noopener noreferrer" href="https://dpms.hmda.gov.in/AutoDCR.Common2/CitizenSearch/publicsearch.aspx">HMDA LP Search ↗</a> <a class="svx-open" target="_blank" rel="noopener noreferrer" href="https://app.buildnow.telangana.gov.in/citizen-search">BuildNow Approval Search ↗</a></span></li>
+          <li><span class="svx-num">3</span><span><b>Encumbrance Certificate (EC)</b><br><span class="svx-muted">Open the Registration Department's EC page and follow its search instructions. Check the property description and registered transactions. An EC alone does not prove clear title. If records are missing or the site is unavailable, contact the Sub-Registrar Office (SRO).</span><br><a class="svx-open" target="_blank" rel="noopener noreferrer" href="https://registration.telangana.gov.in/ec.htm">EC - Registration Department ↗</a></span></li>
+          <li><span class="svx-num">4</span><span><b>Building / layout documents</b><br><span class="svx-muted">Use the current BuildNow checklist for building and layout documents. The older TG-bPASS checklist is also linked for reference.</span><br><a class="svx-open" target="_blank" rel="noopener noreferrer" href="https://buildnow.telangana.gov.in/checklist/">BuildNow Checklist ↗</a> <a class="svx-open" target="_blank" rel="noopener noreferrer" href="https://tgbpass.telangana.gov.in/others/checklist">Older TG-bPASS Checklist ↗</a></span></li>
         </ol>
         <p class="svx-note"><b>Remember:</b> an HMDA LP number approves the <b>layout plan</b> - it does <b>NOT</b> certify the land title or ownership. Title must be verified separately through EC, link documents and legal opinion.</p>
-        <p class="svx-muted">Not sure how to read these records? Send the LP / RERA / EC details to D. Srinivas on WhatsApp and he will walk you through them before you commit.</p>
-        <a class="svx-btn wa" href="https://wa.me/919177226638?text=Hello%20SV%20Prime%20Realty%2C%20I%20need%20help%20verifying%20property%20documents%20(RERA%20%2F%20HMDA%20LP%20%2F%20EC)." target="_blank" rel="noopener noreferrer">Ask D. Srinivas to verify with you</a>
+        <p class="svx-muted">Official links checked on 1 October 2026. Government sites may be temporarily unavailable. If a link fails, try again later or contact the relevant department.</p>
+        <p class="svx-muted">Need help reading the records? Send the LP / RERA / EC details to D. Srinivas on WhatsApp.</p>
+        <a class="svx-btn wa" target="_blank" rel="noopener noreferrer" href="https://wa.me/919177226638?text=Hello%20SV%20Prime%20Realty%2C%20I%20need%20help%20verifying%20property%20documents%20(RERA%20%2F%20HMDA%20LP%20%2F%20EC).">Ask D. Srinivas to verify with you</a>
       </section>
       <section id="svx-visit" class="svx-card" hidden aria-label="Book a site visit">
         <span class="svx-kicker">Site visit · Hyderabad West &amp; Sangareddy</span>
@@ -764,6 +765,81 @@ function decorate(){const records=store.rows();document.querySelectorAll('#root 
 document.addEventListener('click',ev=>{let b=ev.target.closest('button');if(b&&b.textContent.trim()==='Save property'){let editor=b.closest('.editor');let input=editor&&editor.querySelector('input');store.editingProject=input?input.value.trim():''}},true);
 window.addEventListener('svp-change',()=>{render();decorate()});window.addEventListener('svp-message',ev=>{$('svp-info').textContent=ev.detail});
 let scheduled=false;new MutationObserver(()=>{if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;decorate()})}).observe($('root'),{childList:true,subtree:true});render();decorate();
+})();
+</script>
+
+
+<!-- SV PRIME REALTY: property booking enquiries and registration assistance. No payment processing. -->
+<style id="svb-style">
+.svb-book-button,.svb-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border:1px solid #d8ad41;border-radius:8px;background:#f0c34f;color:#091f3a;font:700 14px/1.4 Arial,sans-serif;text-decoration:none;cursor:pointer;max-width:100%}
+.svb-book-button{margin-top:10px}.svb-registration{background:#091f3a;color:#e5eef4;border:1px solid #28435f;border-radius:14px;padding:23px 20px;margin:22px 0;scroll-margin-top:20px}.svb-registration h2{color:#f0c34f;font-size:24px;line-height:1.25;margin:6px 0 12px}.svb-registration p{font-size:14px;line-height:1.6;margin:10px 0}.svb-kicker{color:#f0c34f;font-size:11px;font-weight:700;letter-spacing:1px}.svb-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.svb-step{background:#ffffff09;border:1px solid #ffffff22;border-radius:9px;padding:14px}.svb-step b{display:block;color:#f0c34f;font-size:15px}.svb-step p{margin-bottom:0;font-size:13px}.svb-small{font-size:12px!important;color:#bdcddd}.svb-reg-nav{background:none;border:0;color:#f0c34f;font:700 13px/1.4 Arial,sans-serif;padding:10px 0;min-height:44px;cursor:pointer;text-align:left}
+#svb-dialog{width:calc(100% - 24px);max-width:460px;max-height:calc(100dvh - 24px);overflow:auto;border:1px solid #d8ad41;border-radius:16px;padding:0;color:#17324d;background:#fff;box-shadow:0 20px 70px #0007}#svb-dialog::backdrop{background:#031225cc}#svb-dialog *{box-sizing:border-box}.svb-modal-head{background:#091f3a;color:#f0c34f;padding:17px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}.svb-modal-head h2{margin:0;font-size:20px;line-height:1.25}.svb-close{background:none;border:1px solid #ffffff55;border-radius:7px;color:#fff;min-width:44px;min-height:44px;font:700 14px Arial;cursor:pointer}#svb-form{padding:18px}#svb-form label{display:block;font-size:14px;font-weight:700;margin:0 0 13px}#svb-form input,#svb-form textarea{display:block;width:100%;margin-top:5px;border:1px solid #b9c6d2;border-radius:8px;padding:11px 12px;font:16px/1.4 Arial,sans-serif;color:#17324d;background:#fbfdfe;min-height:44px}#svb-form textarea{resize:none;background:#f0f4f8;font-size:14px}#svb-form p{font-size:13px;line-height:1.55;margin:0 0 14px;color:#526578}#svb-form .svb-link{width:100%;margin:0}#svb-feedback{margin:12px 0 0!important}#svb-review{margin-top:12px;width:100%;background:#0b5c3b;border-color:#0b5c3b;color:white}
+@media(max-width:690px){.svb-steps{grid-template-columns:1fr}.svb-registration{padding:21px 16px}.svb-registration h2{font-size:23px}}
+</style>
+<dialog id="svb-dialog" aria-labelledby="svb-title">
+ <div class="svb-modal-head"><h2 id="svb-title">Book This Property</h2><button class="svb-close" id="svb-close" type="button" aria-label="Close booking form">✕</button></div>
+ <form id="svb-form">
+  <p>Send a booking enquiry to D. Srinivas. Availability and booking terms must be confirmed directly.</p>
+  <label>Selected property<textarea id="svb-property" rows="2" readonly></textarea></label>
+  <label>Customer name<input id="svb-name" name="customerName" autocomplete="name" maxlength="80" required placeholder="Your full name"></label>
+  <label>Phone number<input id="svb-phone" name="customerPhone" type="tel" autocomplete="tel" inputmode="tel" maxlength="18" minlength="7" required placeholder="Your mobile number"></label>
+  <label>Preferred visit date <span style="font-weight:400">(optional)</span><input id="svb-date" name="preferredDate" type="date"></label>
+  <p>This is an enquiry, not a confirmed reservation. No payment is taken here. WhatsApp opens with a draft for you to review and send.</p>
+  <button class="svb-link" type="submit">Continue on WhatsApp ↗</button>
+  <p id="svb-feedback" role="status" hidden></p>
+  <a id="svb-review" class="svb-link" href="#" target="_blank" rel="noopener noreferrer" hidden style="display:none">Open WhatsApp draft ↗</a>
+ </form>
+</dialog>
+<script id="svb-script">
+(function(){
+ 'use strict';
+ const root=document.getElementById('root'),dialog=document.getElementById('svb-dialog'),form=document.getElementById('svb-form'),property=document.getElementById('svb-property');
+ const cards='#root article.property,#root article.featured-card,#root .section-results>article,#root .property-detail.premium-property';
+ let returnFocus=null,selected=null;
+ const registrationURL='https://wa.me/919177226638?text=Hello+SV+PRIME+REALTY%2C+I+would+like+registration+assistance+for+my+property+purchase.+Please+guide+me+on+document+verification%2C+SRO+slot+booking+and+the+registration+process.';
+ function records(){return window.SVPStore?window.SVPStore.rows():[]}
+ function listing(card){
+  let k=Object.keys(card).find(v=>v.startsWith('__reactFiber$')),f=k&&card[k],id='';
+  for(let i=0;f&&i<6;i++,f=f.return)if(f.key){id=String(f.key);break}
+  const rows=records();let row=rows.find(r=>String(r.id)===id);
+  if(!row){const header=card.querySelector('.subpage-header>span');if(header){row=rows.find(r=>header.textContent.trim().endsWith(String(r.id)))}}
+  if(!row){const title=card.querySelector('.property-head h3,h3,.featured-body strong,.subpage-header h1');if(title){const matches=rows.filter(r=>r.project===title.textContent.trim());if(matches.length===1)row=matches[0]}}
+  return row;
+ }
+ function close(){dialog.close();selected=null;property.value='';form.reset();document.getElementById('svb-review').style.display='none';document.getElementById('svb-review').href='#';if(returnFocus&&returnFocus.isConnected)returnFocus.focus()}
+ document.getElementById('svb-close').onclick=close;
+ dialog.addEventListener('cancel',ev=>{ev.preventDefault();close()});
+ dialog.addEventListener('click',ev=>{if(ev.target===dialog){const r=dialog.getBoundingClientRect();if(ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom)close()}});
+ function open(card,button){
+  const row=listing(card);if(!row)return;
+  selected={id:String(row.id),project:row.project,area:row.area,kind:row.kind,private:row.visibility==='PRIVATE'};returnFocus=button;form.reset();
+  property.value=[selected.project,selected.area,selected.kind].filter(Boolean).join(' · ');
+  const feedback=document.getElementById('svb-feedback');feedback.hidden=true;
+  const review=document.getElementById('svb-review');review.hidden=true;review.style.display='none';review.href='#';
+  const now=new Date(),local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);document.getElementById('svb-date').min=local;
+  dialog.showModal();document.getElementById('svb-name').focus();
+ }
+ form.addEventListener('submit',ev=>{
+  ev.preventDefault();if(!selected)return;
+  const name=document.getElementById('svb-name'),phone=document.getElementById('svb-phone'),date=document.getElementById('svb-date');
+  name.setCustomValidity(name.value.trim()?'':'Please enter your name.');phone.setCustomValidity(/^\+?\d{7,15}$/.test(phone.value.replace(/[ ()-]/g,''))?'':'Please enter a valid phone number.');
+  if(!form.reportValidity())return;
+  const text=['Hello SV PRIME REALTY, I would like to book this property.','Property: '+selected.project,'Property ID: '+selected.id,'Area: '+(selected.area||'Not specified'),'Property type: '+(selected.kind||'Not specified'),'Customer name: '+name.value.trim(),'Phone: '+phone.value.trim(),'Preferred visit date: '+(date.value||'Not specified'),'Please confirm availability, visit arrangements and booking terms. This is a booking enquiry only; no payment has been made.'].join('\n');
+  // Customer-entered values are encoded at runtime, following the existing WhatsApp Direct pattern.
+  const url='https://wa.me/919177226638?text='+encodeURIComponent(text);
+  const review=document.getElementById('svb-review');review.href=url;review.hidden=false;review.style.display='flex';
+  const feedback=document.getElementById('svb-feedback');feedback.textContent='Your draft is ready. If WhatsApp did not open, use the button below. The enquiry reaches D. Srinivas only after you send it in WhatsApp.';feedback.hidden=false;
+  window.open(url,'_blank','noopener,noreferrer');
+ });
+ ['svb-name','svb-phone'].forEach(id=>document.getElementById(id).addEventListener('input',ev=>ev.target.setCustomValidity('')));
+ function section(){const el=document.createElement('section');el.id='svb-registration';el.className='svb-registration';el.setAttribute('aria-labelledby','svb-reg-title');el.innerHTML='<span class="svb-kicker">BUYER SUPPORT · D. SRINIVAS</span><h2 id="svb-reg-title">Registration Assistance</h2><p>From choosing a flat to preparing for registration, SV PRIME REALTY helps you understand the next steps.</p><div class="svb-steps"><div class="svb-step"><b>01 · Document verification guidance</b><p>Get help organising property documents and identifying checks to discuss with a qualified lawyer.</p></div><div class="svb-step"><b>02 · SRO slot booking support</b><p>Ask for guidance on the official slot-booking process, required details and your preferred registration date.</p></div><div class="svb-step"><b>03 · Registration process guidance</b><p>Understand the preparation, documents and next steps for your visit to the Sub-Registrar Office.</p></div></div><p class="svb-small">Assistance is not a legal title guarantee or a confirmed SRO appointment. Official checks, availability and applicable fees must be verified separately. No payment is collected through this feature.</p><a class="svb-link" target="_blank" rel="noopener noreferrer">Ask about registration on WhatsApp ↗</a>';el.querySelector('a').href=registrationURL;return el}
+ function decorate(){
+  document.querySelectorAll(cards).forEach(card=>{if(!listing(card))return;let button=card.querySelector('.svb-book-button');if(!button){button=document.createElement('button');button.type='button';button.className='svb-book-button';button.textContent='Book This Property';button.onclick=()=>open(card,button);const target=card.querySelector('.actions,.featured-ctas,.detail-buttons')||card.querySelector('.section-result-image+div')||card;target.appendChild(button)}});
+  const footer=root.querySelector('.sv-site-footer');if(footer){let registration=document.getElementById('svb-registration');if(!registration){registration=section();footer.before(registration)}else if(registration.nextElementSibling!==footer)footer.before(registration)}
+  if(footer&&!footer.querySelector('.svb-reg-nav')){const nav=document.createElement('button');nav.className='svb-reg-nav';nav.type='button';nav.textContent='Registration Assistance';nav.onclick=()=>document.getElementById('svb-registration').scrollIntoView({behavior:'smooth',block:'start'});footer.querySelector('div').appendChild(nav)}
+ }
+ let scheduled=false;new MutationObserver(()=>{if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;decorate()})}).observe(root,{childList:true,subtree:true});
+ window.addEventListener('svp-change',()=>{if(dialog.open&&selected&&selected.private&&!window.SVPStore.unlocked)close();decorate()});decorate();
 })();
 </script>
 
