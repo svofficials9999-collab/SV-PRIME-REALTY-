@@ -1,6 +1,6 @@
 // SV PRIME REALTY service worker. Pages are always network-first so users never get stuck on an old version.
 const ROOT=new URL('./',self.location.href).href;
-const SHELL_CACHE='svp-shell-v1';
+const SHELL_CACHE='svp-shell-v2-back';
 const IMG_CACHE='svp-img-v1';
 const SHELL=[ROOT,new URL('index.html',ROOT).href,new URL('manifest.webmanifest',ROOT).href];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(SHELL_CACHE).then(c=>Promise.all(SHELL.map(u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?c.put(u,r):0).catch(()=>0)))).then(()=>self.skipWaiting()))});
