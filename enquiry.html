@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="te"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Enquiry | SV PRIME REALTY</title>
+<meta name="description" content="Plot enquiry - SV PRIME REALTY. Tell us your area and budget, we will call you soon.">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:system-ui,Segoe UI,Roboto,'Noto Sans Telugu',sans-serif;background:radial-gradient(circle at 20% 0,#12324f 0,#071423 55%,#050b14 100%);color:#e8f1fb}
+.w{max-width:520px;margin:0 auto;padding:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.top b{color:#f2c75c;font-size:16px}.top a{color:#fff;text-decoration:none;border:1px solid #dfad39;border-radius:8px;padding:7px 10px;font-size:13px}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(242,199,92,.45);border-radius:16px;padding:18px;backdrop-filter:blur(10px);box-shadow:0 0 22px rgba(0,200,255,.12)}
+h1{margin:0 0 4px;font-size:23px;color:#f2c75c}p.s{margin:0 0 14px;color:#b9cbe0;font-size:14px}
+label{display:block;margin:12px 0 5px;font-size:14px;font-weight:600}label small{color:#9fb6cf;font-weight:400}
+input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #3b5a7a;background:rgba(5,12,22,.75);color:#fff;font-size:16px}
+input:focus,select:focus{outline:none;border-color:#35d4ff;box-shadow:0 0 0 2px rgba(53,212,255,.25)}
+.err{color:#ff8f8f;font-size:12px;min-height:14px;margin-top:3px}
+button.go{margin-top:16px;width:100%;padding:15px;border:0;border-radius:12px;background:linear-gradient(90deg,#f2c75c,#35d4ff);color:#06182b;font-weight:800;font-size:17px}
+.note{margin-top:10px;font-size:12px;color:#9fb6cf;text-align:center}
+#ty{display:none;text-align:center}#ty .tick{font-size:54px}#ty h2{color:#f2c75c;margin:6px 0}
+#ty a.wa{display:block;margin-top:12px;padding:14px;border-radius:12px;background:#1b7a46;color:#fff;font-weight:700;text-decoration:none}
+#ty a.hm{display:block;margin-top:10px;color:#35d4ff;font-size:14px}
+.credit{text-align:center;margin:16px 0 6px;font-size:12px;color:#7f98b3}
+</style></head><body><div class="w">
+<div class="top"><b>SV PRIME REALTY</b><a href="./">&#8592; Home</a></div>
+<div class="card" id="fm">
+<h1>Plot Enquiry &middot; ప్లాట్ వివరాలు</h1>
+<p class="s">వివరాలు ఇవ్వండి, మేము త్వరలో call చేస్తాం. Share your details and we will call you soon.</p>
+<form id="f" novalidate>
+<label for="n">పేరు / Name</label><input id="n" autocomplete="name" maxlength="60"><div class="err" id="en"></div>
+<label for="p">Phone number <small>(10 అంకెలు / 10 digits)</small></label><input id="p" type="tel" inputmode="numeric" autocomplete="tel" maxlength="14"><div class="err" id="ep"></div>
+<label for="a">ఏ area లో plot కావాలి / Preferred area</label><input id="a" maxlength="80" placeholder="e.g. Shadnagar, Sangareddy, Kukatpally"><div class="err" id="ea"></div>
+<label for="b">Budget / బడ్జెట్</label><input id="b" maxlength="40" placeholder="e.g. 20 lakhs / 20 లక్షలు"><div class="err" id="eb"></div>
+<button class="go" type="submit">WhatsApp లో పంపండి &middot; Send on WhatsApp</button>
+<div class="note">Submit చేస్తే WhatsApp open అవుతుంది, వివరాలు ముందే రాసి ఉంటాయి. Send నొక్కండి.</div>
+</form></div>
+<div class="card" id="ty">
+<div class="tick">&#9989;</div><h2>ధన్యవాదాలు! Thank you!</h2>
+<p class="s">మేము త్వరలో call చేస్తాం.<br>We will call you soon.</p>
+<p class="s">WhatsApp open కాకపోతే కింద button నొక్కండి. If WhatsApp did not open, tap below.</p>
+<a class="wa" id="wl" href="#">WhatsApp open చేయండి &middot; Open WhatsApp</a>
+<a class="hm" href="./">&#8592; Home</a>
+</div>
+<div class="credit">Created by D. Srinivas</div>
+</div>
+<script>
+(function(){
+var NUM='919177226638',sent=false;
+function v(id){return document.getElementById(id).value.replace(/\s+/g,' ').trim()}
+function e(id,m){document.getElementById(id).textContent=m||''}
+document.getElementById('f').addEventListener('submit',function(ev){
+ev.preventDefault();
+var n=v('n'),p=v('p'),a=v('a'),b=v('b'),ok=true;
+var d=p.replace(/\D/g,'');if(d.length===12&&d.indexOf('91')===0)d=d.slice(2);
+e('en',n?'':'పేరు రాయండి / Enter name');e('ep',/^[6-9]\d{9}$/.test(d)?'':'సరైన 10 అంకెల number / Valid 10-digit number');
+e('ea',a?'':'Area రాయండి / Enter area');e('eb',b?'':'Budget రాయండి / Enter budget');
+if(!n||!/^[6-9]\d{9}$/.test(d)||!a||!b)return;
+if(sent)return;sent=true;document.querySelector('button.go').disabled=true;
+var t='Hello SV PRIME REALTY, plot enquiry:\nName / పేరు: '+n+'\nPhone: +91 '+d+'\nArea / ప్రాంతం: '+a+'\nBudget / బడ్జెట్: '+b;
+var u='https://wa.me/'+NUM+'?text='+encodeURIComponent(t);
+document.getElementById('wl').href=u;
+document.getElementById('fm').style.display='none';
+document.getElementById('ty').style.display='block';
+window.scrollTo(0,0);
+setTimeout(function(){location.href=u},900);
+});
+})();
+</script></body></html>
