@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- v30 2026-10-10 -->
+<!-- v31 2026-10-11 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -212,7 +212,71 @@ body .tbtn i{box-shadow:inset 0 0 0 3px #050507,0 0 16px color-mix(in srgb,var(-
 body .tbtn[aria-checked=true] i{box-shadow:0 0 0 3px #050507,0 0 0 5px var(--c),0 0 26px var(--c),0 0 46px color-mix(in srgb,var(--c) 50%,transparent),0 6px 14px #000b}
 </style>
 </head>
-<body>
+<body><script>(function(){
+if(location.protocol==='file:')return;
+var FORM='https://docs.google.com/forms/d/e/1FAIpQLSc-sHgfqyIoc0CO7Gs59REQvPkzhOgYNIV1ZzvNXxsYOQQeEg/formResponse',ENT='entry.1331175987';
+var PK='svpe.lock.v1',FK='svpe.fp.v1',QK='svpe.q.v2',SK='svpe.ok',ls=window.localStorage,ss=window.sessionStorage;
+function g(k){try{return ls.getItem(k)}catch(e){return null}}
+function s(k,v){try{ls.setItem(k,v)}catch(e){}}
+function j(k){try{return JSON.parse(g(k)||'null')}catch(e){return null}}
+try{if(ss.getItem(SK)==='1')return}catch(e){}
+var qb=false;
+function qget(){return j(QK)||[]}
+function qset(a){s(QK,JSON.stringify(a.slice(-20)))}
+function queue(n){var a=qget(),l=a[a.length-1];if(l&&l.n===n&&Date.now()-l.t<4000)return;a.push({n:n,t:Date.now()});qset(a)}
+function flush(){if(qb||!navigator.onLine)return;var a=qget();if(!a.length)return;qb=true;
+(function next(i){if(i>=a.length){qb=false;return}
+fetch(FORM,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams([[ENT,a[i].n],['pageHistory','0'],['fvv','1']]).toString()}).then(function(){qset(qget().filter(function(x){return x.t!==a[i].t}));next(i+1)},function(){qb=false})})(0)}
+setInterval(flush,15000);window.addEventListener('online',flush);document.addEventListener('visibilitychange',function(){if(!document.hidden)flush()});
+var d=document,st=d.createElement('style');
+st.textContent='html.svl,html.svl body{overflow:hidden!important}#svl{position:fixed;inset:0;z-index:2147483647;overflow:auto;background:radial-gradient(900px 480px at 85% -5%,#f3e6c4 0,transparent 62%),#faf6ee;color:#16120b;font-family:Inter,"Segoe UI",system-ui,"Noto Sans Telugu",sans-serif;display:flex;align-items:flex-start;justify-content:center;padding:18px 14px}#svl .c{width:100%;max-width:380px;margin:auto;text-align:center}#svl h1{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-size:21px;letter-spacing:.14em;margin:6px 0 2px;font-weight:800}#svl .sub{color:#8a7a57;font-size:12.5px;margin:0 0 12px}#svl p{margin:6px 0;font-size:13.5px;line-height:1.5}#svl label{display:block;text-align:left;font-size:12.5px;font-weight:700;margin:10px 2px 4px;color:#5c4a1e}#svl input{width:100%;height:48px;border-radius:14px;border:1.5px solid #e8c978;background:#fff;font-size:18px;letter-spacing:.12em;padding:0 14px;color:#16120b;text-align:center}#svl input:focus{outline:2px solid #b8892e}#svl button{width:100%;min-height:48px;border-radius:999px;border:1.5px solid #b8892e;background:linear-gradient(135deg,#e8c978,#b8892e);color:#16120b;font-weight:800;font-size:15px;margin-top:12px;box-shadow:0 6px 18px #b8892e33}#svl button.fp{background:#fff;color:#16120b;border-color:#e8c978}#svl .note{font-size:11.5px;line-height:1.45;color:#5c4a1e;background:#fff;border:1px solid #eadfc6;border-radius:14px;padding:9px 11px;margin-top:12px;text-align:left}#svl .msg{min-height:20px;color:#a3321c;font-weight:700;font-size:13px}#svl img{width:72px;border-radius:12px;border:1.5px solid #e8c978;background:#000}';
+d.head.appendChild(st);d.documentElement.classList.add('svl');
+function b64(buf){var b=new Uint8Array(buf),t='';for(var i=0;i<b.length;i++)t+=String.fromCharCode(b[i]);return btoa(t)}
+function ub64(t){var x=atob(t),u=new Uint8Array(x.length);for(var i=0;i<x.length;i++)u[i]=x.charCodeAt(i);return u}
+function rnd(n){var u=new Uint8Array(n);crypto.getRandomValues(u);return u}
+function hash(pin,salt){return crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveBits']).then(function(m){return crypto.subtle.deriveBits({name:'PBKDF2',salt:ub64(salt),iterations:150000,hash:'SHA-256'},m,256)}).then(b64)}
+function fpOK(){try{return !!(window.isSecureContext&&window.PublicKeyCredential&&navigator.credentials&&PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable)}catch(e){return false}}
+var box,saved=j(PK),isNew=!saved;
+function te(a,b){return a+' · '+b}
+function done(){try{ss.setItem(SK,'1')}catch(e){}d.documentElement.classList.remove('svl');if(box)box.remove();st.remove()}
+function sendSaved(){var p=j(PK);if(p&&p.mobile){queue(p.mobile);flush()}}
+function build(){
+box=d.createElement('div');box.id='svl';
+box.innerHTML='<div class="c"><h1>SV PRIME EDITS</h1><p class="sub">'+te('పోస్టర్ మేకర్','Poster Maker')+'</p><p><b>'+(isNew?te('మొబైల్ నంబర్ + 6 అంకెల PIN సెట్ చేయండి','Set your mobile number + 6-digit PIN'):te('మొబైల్ + PIN తో తెరవండి','Open with your mobile + PIN'))+'</b></p><label for="svl-n">'+te('మొబైల్ నంబర్ (10 అంకెలు)','Mobile number (10 digits)')+'</label><input id="svl-n" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel-national" aria-label="Mobile number"><label for="svl-p">'+(isNew?te('కొత్త PIN','New PIN'):te('మీ PIN','Your PIN'))+'</label><input id="svl-p" type="password" inputmode="numeric" maxlength="6" autocomplete="'+(isNew?'new-password':'current-password')+'" aria-label="6 digit PIN">'+(isNew?'<label for="svl-c">'+te('PIN మళ్లీ','Confirm PIN')+'</label><input id="svl-c" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" aria-label="Confirm PIN">':'')+'<p class="msg" id="svl-m" role="status" aria-live="polite"></p><button id="svl-go">'+(isNew?te('నమోదు చేసి తెరువు','Register and open'):te('అన్‌లాక్','Unlock'))+'</button><button class="fp" id="svl-fp" hidden>'+te('ఫింగర్‌ప్రింట్ / ఫోన్ అన్‌లాక్','Fingerprint / phone unlock')+'</button><div class="note">'+te('మీ మొబైల్ నంబర్ మాత్రమే యాప్ యజమాని D. శ్రీనివాస్ ప్రైవేట్ Google Sheet లో సేవ్ అవుతుంది (యాప్ తెరిచిన ప్రతిసారి) - మిమ్మల్ని సంప్రదించడానికి మాత్రమే. PIN, ఫింగర్‌ప్రింట్ మీ ఫోన్‌లోనే ఉంటాయి, ఎక్కడికీ పంపబడవు.','Only your mobile number is saved to the app owner D. Srinivas private Google Sheet (each time you open the app), only so he can contact you. Your PIN and fingerprint stay on your phone and are never sent.')+'</div></div>';
+d.body.appendChild(box);
+var n=box.querySelector('#svl-n'),p=box.querySelector('#svl-p'),m=box.querySelector('#svl-m'),go=box.querySelector('#svl-go'),fb=box.querySelector('#svl-fp');
+function say(a,b){m.textContent=te(a,b)}
+go.onclick=function(){
+ var nv=n.value.trim(),pv=p.value;
+ if(!/^[6-9]\d{9}$/.test(nv)){say('సరైన 10 అంకెల మొబైల్ ఇవ్వండి','Enter a valid 10-digit mobile number');return}
+ if(!/^\d{6}$/.test(pv)){say('PIN 6 అంకెలు ఉండాలి','PIN must be 6 digits');return}
+ if(isNew&&box.querySelector('#svl-c').value!==pv){say('రెండు PINలు ఒకేలా లేవు','The PINs do not match');return}
+ if(saved&&saved.until>Date.now()){say('ఒక నిమిషం వేచి ఉండండి','Wait one minute');return}
+ go.disabled=true;
+ var salt=saved?saved.salt:b64(rnd(16));
+ hash(pv,salt).then(function(h){
+  if(saved&&(saved.mobile!==nv||saved.hash!==h)){saved.fails=(saved.fails||0)+1;if(saved.fails>=5){saved.until=Date.now()+60000;saved.fails=0}s(PK,JSON.stringify(saved));p.value='';say('నంబర్ లేదా PIN తప్పు','Wrong mobile number or PIN');go.disabled=false;return}
+  if(isNew){s(PK,JSON.stringify({mobile:nv,salt:salt,hash:h,fails:0}))}
+  queue(nv);flush();done();offerFp();
+ },function(){say('ఈ బ్రౌజర్‌లో కుదరలేదు','Not supported in this browser');go.disabled=false});
+};
+d.addEventListener('keydown',function(e){if(box&&box.isConnected&&e.key==='Enter')go.click()});
+if(fpOK()&&j(FK)){PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(function(ok){if(ok)fb.hidden=false},function(){});
+ fb.onclick=function(){var f=j(FK);navigator.credentials.get({publicKey:{challenge:rnd(32),allowCredentials:[{type:'public-key',id:ub64(f.id),transports:['internal']}],userVerification:'required',timeout:60000}}).then(function(c){if(c){sendSaved();done()}},function(){say('ధృవీకరణ కాలేదు. నంబర్ ఇవ్వండి','Could not verify. Use your number')})}}
+}
+function offerFp(){
+ if(j(FK)||!fpOK()||(+g('svpe.fpask')||0)>=3)return;
+ PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(function(ok){if(!ok)return;
+  var o=d.createElement('div');o.style.cssText='position:fixed;left:10px;right:10px;bottom:12px;z-index:2147483646;background:#fff;border:1.5px solid #e8c978;border-radius:16px;padding:12px;color:#16120b;font:600 14px system-ui,"Noto Sans Telugu",sans-serif;box-shadow:0 8px 24px #b8892e33;text-align:center';
+  o.innerHTML='<div style="margin-bottom:8px">'+te('ఫింగర్‌ప్రింట్ అన్‌లాక్ ఆన్ చేయాలా?','Turn on fingerprint unlock?')+'</div><div style="font-weight:400;font-size:12px;color:#5c4a1e;margin-bottom:8px">'+te('తదుపరిసారి నంబర్ టైప్ చేయకుండా తెరవచ్చు. ఫింగర్‌ప్రింట్ మీ ఫోన్‌లోనే ఉంటుంది.','Next time open without typing. Your fingerprint stays on your phone.')+'</div><button id="svfy" style="height:40px;padding:0 18px;border-radius:14px;border:1.5px solid #b8892e;background:#e8c978;color:#16120b;font-weight:700;margin-right:8px">'+te('ఆన్','Turn on')+'</button><button id="svfn" style="height:40px;padding:0 14px;border-radius:14px;border:1px solid #e8c978;background:#fff;color:#5c4a1e">'+te('ఇప్పుడు కాదు','Not now')+'</button>';
+  d.body.appendChild(o);
+  o.querySelector('#svfn').onclick=function(){s('svpe.fpask',String((+g('svpe.fpask')||0)+1));o.remove()};
+  o.querySelector('#svfy').onclick=function(){navigator.credentials.create({publicKey:{rp:{id:location.hostname,name:'SV PRIME EDITS'},user:{id:rnd(16),name:'local-device',displayName:'SV PRIME EDITS device'},challenge:rnd(32),pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',residentKey:'discouraged'},timeout:60000,attestation:'none'}}).then(function(c){if(c)s(FK,JSON.stringify({id:b64(c.rawId)}));o.remove()},function(){o.remove()})};
+ },function(){})
+}
+if(d.body)build();else d.addEventListener('DOMContentLoaded',build);
+})();
+</script>
 <header><div class="brand"><span class="me"><img id="ownerPhoto" alt="D Srinivas" width="48" height="48"></span><div><strong>SV PRIME EDITS</strong><small data-i="studio">మీ డిజైన్ స్టూడియో / Your design studio</small></div></div><div class="hright"><button id="install" class="install" data-i="install">↓ APP INSTALL</button><button class="lang" id="language" aria-label="Switch to English">English</button></div></header>
 <main>
 <section id="editor">
@@ -227,7 +291,7 @@ body .tbtn[aria-checked=true] i{box-shadow:0 0 0 3px #050507,0 0 0 5px var(--c),
 <section class="panel preview"><span class="badge">LIVE PREVIEW · 1080 × 1920</span><h2 class="hidden" data-i="preview">మీ పోస్టర్ ప్రివ్యూ</h2><canvas id="poster" width="1080" height="1920" role="img" aria-label="Live poster preview"></canvas><p class="hint" data-i="quality">ఇది నమూనా ప్రివ్యూ మాత్రమే. ఫైనల్ డిజైన్, 8K అవుట్‌పుట్ గురించి స్టూడియోతో మాట్లాడండి.</p></section></div>
 </section>
 <section id="thanks" class="panel paypanel" hidden tabindex="-1"><div class="paychip" data-i="payChip">STEP 2 · PAYMENT</div><h1 data-i="payTitle"></h1><p class="paywarn" data-i="payFirst"></p><div class="amount"><div><small data-i="payFor"></small><strong id="payTpl"></strong></div><div class="amt"><small data-i="payAmt"></small><strong id="payPrice"></strong></div></div><p class="muted paynote" data-i="priceNote"></p><img id="payQr" class="payqr" alt="PhonePe UPI payment QR - Dappu Srinivas" width="300" height="503"><a class="payapp" id="payApp" href="upi://pay?pa=9177226638-3@ybl&amp;pn=Dappu%20Srinivas&amp;cu=INR" data-i="payApp"></a><ol class="paysteps"><li data-i="payStep1"></li><li data-i="payStep2"></li><li data-i="payStep3"></li></ol><a class="cta" id="open" target="_blank" rel="noopener noreferrer" data-i="paidBtn"></a><p class="hint" id="sentNote" hidden data-i="sentNote"></p><details class="ordersum"><summary data-i="summaryT"></summary><div class="summary"><pre id="summary"></pre></div></details><button class="back" id="back" data-i="back">← Edit details</button></section>
-<div id="installHelp" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="installTitle"><div class="panel"><h2 id="installTitle" data-i="installTitle">ఫోన్‌లో ఇన్‌స్టాల్ చేయండి</h2><p id="installStatus" class="hint"></p><ol><li data-i="install1">ఈ లింక్‌ను Chromeలో ఓపెన్ చేయండి (WhatsApp లోపల కాదు).</li><li data-i="install2">Chrome ⋮ మెనూ → Add to Home screen → Install.</li><li data-i="install3">iPhone: Safari → Share → Add to Home Screen.</li></ol><p class="hint" data-i="installNote">ఇది హోమ్ స్క్రీన్ వెబ్ యాప్. APK కాదు. మొదటి సందర్శనకు, WhatsApp ఆర్డర్‌కు ఇంటర్నెట్ అవసరం.</p><button class="cta secondary" id="closeInstall" data-i="close">మూసివేయండి</button></div></div><footer>By D Srinivas, SV PRIME EDITS<br>91772 26638<br><small id="ver" style="opacity:.55;font-size:11px;letter-spacing:.08em">v30 · 10 Oct 2026</small></footer>
+<div id="installHelp" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="installTitle"><div class="panel"><h2 id="installTitle" data-i="installTitle">ఫోన్‌లో ఇన్‌స్టాల్ చేయండి</h2><p id="installStatus" class="hint"></p><ol><li data-i="install1">ఈ లింక్‌ను Chromeలో ఓపెన్ చేయండి (WhatsApp లోపల కాదు).</li><li data-i="install2">Chrome ⋮ మెనూ → Add to Home screen → Install.</li><li data-i="install3">iPhone: Safari → Share → Add to Home Screen.</li></ol><p class="hint" data-i="installNote">ఇది హోమ్ స్క్రీన్ వెబ్ యాప్. APK కాదు. మొదటి సందర్శనకు, WhatsApp ఆర్డర్‌కు ఇంటర్నెట్ అవసరం.</p><button class="cta secondary" id="closeInstall" data-i="close">మూసివేయండి</button></div></div><footer>By D Srinivas, SV PRIME EDITS<br>91772 26638<br><small id="ver" style="opacity:.55;font-size:11px;letter-spacing:.08em">v31 · 11 Oct 2026</small></footer>
 </main>
 <script>
 'use strict';
@@ -1027,7 +1091,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceW
 
 applyLanguage();if(document.fonts)document.fonts.ready.then(render);
 (function(){const b=document.getElementById('install');if(!b)return;b.addEventListener('pointerdown',e=>{const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height),p=document.createElement('span');p.className='rip';p.style.cssText='width:'+d+'px;height:'+d+'px;left:'+(e.clientX-r.left-d/2)+'px;top:'+(e.clientY-r.top-d/2)+'px';b.appendChild(p);setTimeout(()=>p.remove(),600);b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');setTimeout(()=>b.classList.remove('pop'),600);if(navigator.vibrate)try{navigator.vibrate(12)}catch(_){}});})();
-(function(){try{if(!navigator.onLine||location.protocol!=='https:'||sessionStorage.getItem('svfresh'))return;fetch(location.pathname+'?chk='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/<!-- (v\d+ [\d-]+) -->/);if(m&&m[1]!=='v30 2026-10-10'){sessionStorage.setItem('svfresh','1');(navigator.serviceWorker?navigator.serviceWorker.getRegistrations().then(a=>Promise.all(a.map(x=>x.unregister()))):Promise.resolve()).then(()=>window.caches?caches.keys().then(k=>Promise.all(k.map(x=>caches.delete(x)))):0).finally(()=>location.replace(location.pathname+'?v='+Date.now()));}}).catch(()=>{});}catch(e){}})();
+(function(){try{if(!navigator.onLine||location.protocol!=='https:'||sessionStorage.getItem('svfresh'))return;fetch(location.pathname+'?chk='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/<!-- (v\d+ [\d-]+) -->/);if(m&&m[1]!=='v31 2026-10-11'){sessionStorage.setItem('svfresh','1');(navigator.serviceWorker?navigator.serviceWorker.getRegistrations().then(a=>Promise.all(a.map(x=>x.unregister()))):Promise.resolve()).then(()=>window.caches?caches.keys().then(k=>Promise.all(k.map(x=>caches.delete(x)))):0).finally(()=>location.replace(location.pathname+'?v='+Date.now()));}}).catch(()=>{});}catch(e){}})();
 (function(){const sel=document.getElementById('dtype'),box=document.getElementById('dtypeBtns');if(!sel||!box)return;
 const bs=[...box.querySelectorAll('.tbtn')];
 function syncT(){bs.forEach(b=>{const v=b.dataset.v,o=[...sel.options].find(x=>x.value===v);b.querySelector('b').textContent=o?o.textContent:v;b.setAttribute('aria-checked',String(sel.value===v));b.tabIndex=sel.value===v?0:-1;});}
