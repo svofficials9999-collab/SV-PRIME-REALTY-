@@ -59,5 +59,23 @@
       new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{enhance()}catch(e){}},200)}).observe(document.body,{childList:true,subtree:true});
       enhance();
     })();
+    /* Official links: adds the TS Registrations dashboard link inside the existing "Registration & Stamps" card. Adds only. */
+    (function(){
+      var URL_='https://registration.telangana.gov.in/RSDB/docsRegistered.htm';
+      function add(){
+        var cards=document.querySelectorAll('.svx-gov-card');
+        for(var i=0;i<cards.length;i++){
+          var c=cards[i],h=c.querySelector('h4');
+          if(!h||h.textContent.indexOf('Registration')!==0||c.querySelector('#svp-regdash'))continue;
+          var br=document.createElement('br');
+          var a=document.createElement('a');a.id='svp-regdash';a.className='svx-open';a.href=URL_;a.target='_blank';a.rel='noopener noreferrer';
+          a.textContent='\u0C24\u0C46\u0C32\u0C02\u0C17\u0C3E\u0C23 \u0C30\u0C3F\u0C1C\u0C3F\u0C38\u0C4D\u0C1F\u0C4D\u0C30\u0C47\u0C37\u0C28\u0C4D\u0C32\u0C41 - \u0C05\u0C27\u0C3F\u0C15\u0C3E\u0C30\u0C3F\u0C15 \u0C21\u0C3E\u0C37\u0C4D\u200C\u0C2C\u0C4B\u0C30\u0C4D\u0C21\u0C4D / TS Registrations Dashboard \u2197';
+          c.appendChild(br);c.appendChild(a);
+        }
+      }
+      var p=false;
+      new MutationObserver(function(){if(p)return;p=true;setTimeout(function(){p=false;try{add()}catch(e){}},300)}).observe(document.body,{childList:true,subtree:true});
+      add();
+    })();
   }catch(e){}
 })();
