@@ -235,7 +235,11 @@ body .tbtn[aria-checked=true] i{box-shadow:0 0 0 3px #050507,0 0 0 5px var(--c),
 #tlb .use{background:linear-gradient(135deg,#ffe38a,#d9a826);color:#1a1209}
 #tlb .cl{background:#2b3552;color:#fff}
 </style>
-</head>
+<style id="phase2b-viewport">
+/* Grid items must shrink below native date/file input min-content widths. */
+.steps>.panel,.row2>div{min-width:0}
+.fields input{min-width:0;max-width:100%}
+</style></head>
 <body><script>(function(){
 if(location.protocol==='file:')return;
 var FORM='https://docs.google.com/forms/d/e/1FAIpQLSc-sHgfqyIoc0CO7Gs59REQvPkzhOgYNIV1ZzvNXxsYOQQeEg/formResponse',ENT='entry.1331175987';
