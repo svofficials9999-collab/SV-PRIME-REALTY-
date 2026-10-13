@@ -77,5 +77,77 @@
       new MutationObserver(function(){if(p)return;p=true;setTimeout(function(){p=false;try{add()}catch(e){}},300)}).observe(document.body,{childList:true,subtree:true});
       add();
     })();
+    /* Compass: small pill opens a live compass (phone sensor) with N/E/S/W and a "plot faces" helper. Adds only. */
+    (function(){
+      if(document.getElementById('svp-compass-link'))return;
+      var pill=document.createElement('button');pill.id='svp-compass-link';pill.type='button';
+      pill.textContent='\uD83E\uDDED Compass \u00B7 \u0C26\u0C3F\u0C36\u0C32\u0C41';
+      pill.setAttribute('style','position:fixed;right:12px;bottom:184px;z-index:54;background:#092744;color:#9df0c0;border:1px solid #35d49a;border-radius:999px;padding:6px 12px;font:600 12px system-ui,sans-serif;white-space:nowrap;line-height:1.3;margin:0;box-sizing:border-box;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer');
+      document.body.appendChild(pill);
+      var DIRS=[['N','\u0C09\u0C24\u0C4D\u0C24\u0C30\u0C02',0],['NE','\u0C08\u0C36\u0C3E\u0C28\u0C4D\u0C2F\u0C02',45],['E','\u0C24\u0C42\u0C30\u0C4D\u0C2A\u0C41',90],['SE','\u0C06\u0C17\u0C4D\u0C28\u0C47\u0C2F\u0C02',135],['S','\u0C26\u0C15\u0C4D\u0C37\u0C3F\u0C23\u0C02',180],['SW','\u0C28\u0C48\u0C30\u0C43\u0C24\u0C3F',225],['W','\u0C2A\u0C21\u0C2E\u0C30',270],['NW','\u0C35\u0C3E\u0C2F\u0C35\u0C4D\u0C2F\u0C02',315]];
+      var ov=null,heading=null,listening=false,timer=null,target=null;
+      function card(h){var i=Math.round(h/45)%8;return DIRS[i]}
+      function norm(a){return ((a%360)+360)%360}
+      function render(){
+        if(!ov)return;
+        var d=ov.querySelector('#svp-c-dial'),t=ov.querySelector('#svp-c-txt'),g=ov.querySelector('#svp-c-guide');
+        if(heading===null)return;
+        d.style.transform='rotate('+(-heading)+'deg)';
+        var c=card(heading);t.textContent=Math.round(heading)+'\u00B0 \u00B7 '+c[0]+' ('+c[1]+')';
+        if(target!==null){var diff=norm(target-heading);if(diff>180)diff-=360;var ad=Math.abs(diff);
+          g.textContent=ad<=10?'\u2705 \u0C2E\u0C40\u0C30\u0C41 \u0C06 \u0C26\u0C3F\u0C36\u0C32\u0C4B \u0C09\u0C28\u0C4D\u0C28\u0C3E\u0C30\u0C41 / You are facing it':(diff>0?'\u21BB Turn right ':'\u21BA Turn left ')+Math.round(ad)+'\u00B0'}
+        else g.textContent='';
+      }
+      function onOri(e){
+        var h=null;
+        if(typeof e.webkitCompassHeading==='number'&&!isNaN(e.webkitCompassHeading))h=e.webkitCompassHeading;
+        else if(e.alpha!==null&&e.alpha!==undefined&&(e.absolute||e.type==='deviceorientationabsolute'))h=norm(360-e.alpha);
+        if(h===null)return;
+        heading=h;clearTimeout(timer);var m=ov&&ov.querySelector('#svp-c-msg');if(m)m.textContent='';render();
+      }
+      function start(){
+        var m=ov.querySelector('#svp-c-msg');
+        function go(){
+          if(!listening){listening=true;window.addEventListener('deviceorientationabsolute',onOri,true);window.addEventListener('deviceorientation',onOri,true)}
+          m.textContent='\u0C38\u0C46\u0C28\u0C4D\u0C38\u0C30\u0C4D \u0C1A\u0C42\u0C38\u0C4D\u0C24\u0C41\u0C28\u0C4D\u0C28\u0C3E\u0C02... Reading sensor...';
+          clearTimeout(timer);timer=setTimeout(function(){if(heading===null)m.textContent='\u0C08 device \u0C32\u0C4B compass sensor \u0C26\u0C4A\u0C30\u0C15\u0C32\u0C47\u0C26\u0C41. \u0C2B\u0C4B\u0C28\u0C4D \u0C32\u0C4B Chrome/Safari \u0C32\u0C4B \u0C24\u0C46\u0C30\u0C35\u0C02\u0C21\u0C3F, location/motion permission \u0C07\u0C35\u0C4D\u0C35\u0C02\u0C21\u0C3F. Compass sensor not available on this device or permission denied.'},3000);
+        }
+        try{
+          if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
+            DeviceOrientationEvent.requestPermission().then(function(r){if(r==='granted')go();else m.textContent='Permission denied. Settings > Safari > Motion & Orientation Access \u0C06\u0C28\u0C4D \u0C1A\u0C47\u0C2F\u0C02\u0C21\u0C3F.'}).catch(function(){m.textContent='Permission error. Please try again.'});
+          }else go();
+        }catch(err){m.textContent='Compass not supported here.'}
+      }
+      function close(){if(ov){ov.remove();ov=null}window.removeEventListener('deviceorientationabsolute',onOri,true);window.removeEventListener('deviceorientation',onOri,true);listening=false;heading=null;target=null;clearTimeout(timer)}
+      function open(){
+        if(ov)return;
+        ov=document.createElement('div');ov.id='svp-compass';
+        ov.setAttribute('style','position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(3,10,20,.85);backdrop-filter:blur(6px)');
+        var opts='<option value="">\u2014</option>'+DIRS.map(function(d){return '<option value="'+d[2]+'">'+d[0]+' \u00B7 '+d[1]+'</option>'}).join('');
+        ov.innerHTML='<div role="dialog" aria-modal="true" aria-label="Compass" style="max-width:380px;width:100%;color:#e8f1fb;font:15px system-ui,sans-serif;text-align:center;background:linear-gradient(160deg,rgba(18,50,79,.97),rgba(5,11,20,.98));border:1px solid #35d49a;border-radius:16px;padding:18px;box-shadow:0 0 28px rgba(53,212,154,.2)">'
+        +'<h2 style="margin:0 0 4px;font-size:19px;color:#f2c75c">\uD83E\uDDED Compass \u00B7 \u0C26\u0C3F\u0C36\u0C32\u0C41</h2>'
+        +'<p style="margin:0 0 10px;font-size:12px;color:#b9cbe0">\u0C2A\u0C4D\u0C32\u0C3E\u0C1F\u0C4D \u0C26\u0C17\u0C4D\u0C17\u0C30 \u0C28\u0C3F\u0C32\u0C2C\u0C21\u0C3F \u0C2B\u0C4B\u0C28\u0C4D \u0C2A\u0C4D\u0C32\u0C47\u0C28\u0C4D\u0C17\u0C3E \u0C2A\u0C1F\u0C4D\u0C1F\u0C41\u0C15\u0C4B\u0C02\u0C21\u0C3F. Stand at the plot, hold the phone flat.</p>'
+        +'<div style="position:relative;width:220px;height:220px;margin:6px auto"><div style="position:absolute;left:50%;top:-6px;transform:translateX(-50%);color:#ff6b6b;font-size:16px">\u25BC</div>'
+        +'<div id="svp-c-dial" style="width:220px;height:220px;border-radius:50%;border:2px solid #35d4ff;position:relative;background:radial-gradient(circle,#0b2238,#050b14);transition:transform .15s linear">'
+        +'<b style="position:absolute;left:50%;top:6px;transform:translateX(-50%);color:#ff6b6b;font-size:20px">N</b>'
+        +'<b style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#f2c75c;font-size:18px">E</b>'
+        +'<b style="position:absolute;left:50%;bottom:6px;transform:translateX(-50%);color:#f2c75c;font-size:18px">S</b>'
+        +'<b style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#f2c75c;font-size:18px">W</b>'
+        +'<div style="position:absolute;left:50%;top:30px;bottom:50%;width:3px;margin-left:-1.5px;background:#ff6b6b;border-radius:2px"></div></div></div>'
+        +'<div id="svp-c-txt" style="font-size:22px;font-weight:700;color:#7fe3ff;min-height:30px">\u2014</div>'
+        +'<div id="svp-c-msg" style="font-size:12px;color:#ffb3b3;min-height:16px;margin:4px 0"></div>'
+        +'<button id="svp-c-start" type="button" style="width:100%;min-height:46px;border:0;border-radius:10px;background:#0b5c3b;color:#fff;font:700 15px system-ui,sans-serif;margin-top:4px">Start compass \u00B7 \u0C2A\u0C4D\u0C30\u0C3E\u0C30\u0C02\u0C2D\u0C3F\u0C02\u0C1A\u0C02\u0C21\u0C3F</button>'
+        +'<label style="display:block;margin-top:12px;font-size:13px;text-align:left">\u0C2A\u0C4D\u0C32\u0C3E\u0C1F\u0C4D facing (\u0C2E\u0C40\u0C15\u0C41 \u0C24\u0C46\u0C32\u0C3F\u0C38\u0C3F\u0C28\u0C26\u0C3F \u0C0E\u0C02\u0C1A\u0C41\u0C15\u0C4B\u0C02\u0C21\u0C3F) / Plot faces (pick if known)<select id="svp-c-sel" style="width:100%;margin-top:4px;padding:10px;border-radius:8px;border:1px solid #3b5a7a;background:#050c16;color:#fff;font-size:15px">'+opts+'</select></label>'
+        +'<div id="svp-c-guide" style="margin-top:8px;font-size:14px;color:#9df0c0;min-height:20px"></div>'
+        +'<p style="margin:8px 0 0;font-size:11px;color:#8aa3be">Phone compass can be off by some degrees near metal or electronics. Confirm plot facing from documents / Vastu expert. \u0C2B\u0C4B\u0C28\u0C4D compass \u0C32\u0C4B \u0C15\u0C4A\u0C02\u0C1A\u0C46\u0C02 \u0C24\u0C47\u0C21\u0C3E \u0C09\u0C02\u0C21\u0C35\u0C1A\u0C4D\u0C1A\u0C41.</p>'
+        +'<button id="svp-c-x" type="button" style="margin-top:10px;background:none;border:1px solid #3b5a7a;color:#7fe3ff;border-radius:10px;padding:10px 16px;font-size:14px">Close \u00B7 \u0C2E\u0C42\u0C38\u0C3F\u0C35\u0C47\u0C2F\u0C02\u0C21\u0C3F</button></div>';
+        document.body.appendChild(ov);
+        ov.querySelector('#svp-c-x').onclick=close;
+        ov.addEventListener('click',function(e){if(e.target===ov)close()});
+        ov.querySelector('#svp-c-start').onclick=start;
+        ov.querySelector('#svp-c-sel').onchange=function(){target=this.value===''?null:Number(this.value);render();if(target===null)ov.querySelector('#svp-c-guide').textContent=''};
+      }
+      pill.addEventListener('click',open);
+    })();
   }catch(e){}
 })();
