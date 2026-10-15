@@ -1,6 +1,6 @@
 // SV PRIME REALTY service worker. Pages are always network-first so users never get stuck on an old version.
 const ROOT=new URL('./',self.location.href).href;
-const SHELL_CACHE='svp-shell-v3-bounded-startup';
+const SHELL_CACHE='svp-shell-v4-brand-scope-fix';
 const IMG_CACHE='svp-img-v1';
 const SHELL=[ROOT,new URL('index.html',ROOT).href,new URL('manifest.webmanifest',ROOT).href];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(SHELL_CACHE).then(c=>Promise.all(SHELL.map(u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?c.put(u,r):0).catch(()=>0)))).then(()=>self.skipWaiting()))});
@@ -10,9 +10,12 @@ self.addEventListener('fetch',e=>{
  const r=e.request,u=new URL(r.url);
  if(r.method!=='GET')return;
  if(r.headers.has('range'))return;
+ // SV PRIME EDITS apps (poster-maker.html, promo-studio.html) are separate products:
+ // never answer them from this worker; they use their own worker or the plain network.
+ if(/\/(poster-maker|promo-studio)\.html$/.test(u.pathname))return;
  // Page navigations: network first, cached copy only when offline.
  if(r.mode==='navigate'&&u.origin===self.location.origin&&u.href.startsWith(ROOT)){
-  boundedStartup(e,(async()=>{try{const n=await fetch(r,{cache:'no-store'});if(n.ok){const c=await caches.open(SHELL_CACHE);c.put(new URL('index.html',ROOT).href,n.clone())}return n}catch(_){const c=await caches.open(SHELL_CACHE);return (await c.match(new URL('index.html',ROOT).href))||(await c.match(ROOT))||Response.error()}})());return}
+  boundedStartup(e,(async()=>{try{const n=await fetch(r,{cache:'no-store'});if(n.ok){const c=await caches.open(SHELL_CACHE);c.put(u.href,n.clone())}return n}catch(_){const c=await caches.open(SHELL_CACHE);return (await c.match(u.href))||(await c.match(new URL('index.html',ROOT).href))||(await c.match(ROOT))||Response.error()}})());return}
  // Same-site files that are not pages: network first, cached copy only when offline.
  if(u.origin===self.location.origin&&u.href.startsWith(ROOT)&&!/\.(mp4|webm|mov|pdf)$/i.test(u.pathname)&&!u.searchParams.has('_v')){
   boundedStartup(e,(async()=>{try{const n=await fetch(r,{cache:'no-store'});if(n.ok&&r.destination==='image'){const c=await caches.open(IMG_CACHE);c.put(r,n.clone());trim(c,150)}else if(n.ok&&SHELL.includes(u.href)){const c=await caches.open(SHELL_CACHE);c.put(r,n.clone())}return n}catch(_){return (await caches.match(r))||Response.error()}})());return}
