@@ -1,3 +1,5 @@
+2026-10-16: SV PRIME EDITS moved to its own repo + Pages (svofficials9999-collab/SV-PRIME-EDITS) so the installed REALTY PWA (scope './') can no longer capture poster-maker.html / promo-studio.html. Both old URLs now serve a small EDITS-branded redirect to https://svofficials9999-collab.github.io/SV-PRIME-EDITS/<page> and unregister the old poster-sw. Do not recreate real EDITS app pages in this repo.
+
 # SV PRIME REALTY - Changelog and quality rules
 
 Documentation baseline: 2026-10-09. Earlier project history remains in Git commits; this file does not invent a day-one audit.
@@ -39,3 +41,4 @@ This snapshots main before this documentation change. It is a rollback reference
 ## Mobile check after later changes
 
 Open the live app, switch Telugu/English, use main screens and Back, close overlays, refresh/reopen, and verify saved input/progress. Report the screen and exact steps if something fails.
+
