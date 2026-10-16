@@ -25,6 +25,8 @@ This snapshots main before this documentation change. It is a rollback reference
 
 ## Known changes
 
+- 2026-10-16: Fixed SV PRIME EDITS links opening with the SV PRIME REALTY logo/app on phones holding the old root worker. Root worker v5 (svp-shell-v5-edits-escape) never answers poster-maker/promo-studio URLs, purges old shells on activation and re-navigates captured open tabs to the network; poster worker v50 (sv-poster-v50-purge-all) purges every old cache and claims clients immediately; the poster-maker registration gate now paints the EDITS logo inline on first paint; og/twitter social-preview meta added with edits-og-image.png; poster worker script updates bypass HTTP cache. Simulated old-SW + realty-cache state reproduced the bug locally and verified the fix end to end.
+
 - 2026-10-09: Added a seven-section expandable Telugu/English app guide without replacing existing app features. Served files and a 390px preview were checked.
 
 ## Known limitations and pending checks
