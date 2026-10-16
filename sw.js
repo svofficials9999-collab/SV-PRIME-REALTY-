@@ -1,10 +1,10 @@
 // SV PRIME REALTY service worker. Pages are always network-first so users never get stuck on an old version.
 const ROOT=new URL('./',self.location.href).href;
-const SHELL_CACHE='svp-shell-v4-brand-scope-fix';
+const SHELL_CACHE='svp-shell-v5-edits-escape';
 const IMG_CACHE='svp-img-v1';
 const SHELL=[ROOT,new URL('index.html',ROOT).href,new URL('manifest.webmanifest',ROOT).href];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(SHELL_CACHE).then(c=>Promise.all(SHELL.map(u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?c.put(u,r):0).catch(()=>0)))).then(()=>self.skipWaiting()))});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('svp-')&&k!==SHELL_CACHE&&k!==IMG_CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
+self.addEventListener('activate',e=>{e.waitUntil((async()=>{const ks=await caches.keys();await Promise.all(ks.filter(k=>k.startsWith('svp-')&&k!==SHELL_CACHE&&k!==IMG_CACHE).map(k=>caches.delete(k)));await self.clients.claim();const cs=await self.clients.matchAll({type:'window',includeUncontrolled:true});await Promise.all(cs.filter(c=>/\/(poster-maker|promo-studio)\.html$/.test(new URL(c.url).pathname)).map(c=>c.navigate(c.url).catch(()=>0)))})())});
 async function trim(c,max){const ks=await c.keys();for(let i=0;i<ks.length-max;i++)await c.delete(ks[i])}
 self.addEventListener('fetch',e=>{
  const r=e.request,u=new URL(r.url);
