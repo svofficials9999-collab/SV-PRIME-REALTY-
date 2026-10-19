@@ -82,7 +82,7 @@
       if(document.getElementById('svp-compass-link'))return;
       var pill=document.createElement('button');pill.id='svp-compass-link';pill.type='button';
       pill.textContent='\uD83E\uDDED Compass \u00B7 \u0C26\u0C3F\u0C36\u0C32\u0C41';
-      pill.setAttribute('style','position:fixed;right:12px;bottom:264px;z-index:54;background:#092744;color:#9df0c0;border:1px solid #35d49a;border-radius:999px;padding:6px 12px;font:600 12px system-ui,sans-serif;white-space:nowrap;line-height:1.3;margin:0;box-sizing:border-box;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer');
+      pill.setAttribute('style','position:fixed;right:12px;bottom:190px;z-index:54;background:#092744;color:#9df0c0;border:1px solid #35d49a;border-radius:999px;padding:6px 12px;font:600 12px system-ui,sans-serif;white-space:nowrap;line-height:1.3;margin:0;box-sizing:border-box;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer');
       document.body.appendChild(pill);
       var DIRS=[['N','\u0C09\u0C24\u0C4D\u0C24\u0C30\u0C02',0],['NE','\u0C08\u0C36\u0C3E\u0C28\u0C4D\u0C2F\u0C02',45],['E','\u0C24\u0C42\u0C30\u0C4D\u0C2A\u0C41',90],['SE','\u0C06\u0C17\u0C4D\u0C28\u0C47\u0C2F\u0C02',135],['S','\u0C26\u0C15\u0C4D\u0C37\u0C3F\u0C23\u0C02',180],['SW','\u0C28\u0C48\u0C30\u0C43\u0C24\u0C3F',225],['W','\u0C2A\u0C21\u0C2E\u0C30',270],['NW','\u0C35\u0C3E\u0C2F\u0C35\u0C4D\u0C2F\u0C02',315]];
       var ov=null,heading=null,listening=false,timer=null,target=null;
