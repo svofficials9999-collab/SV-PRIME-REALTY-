@@ -160,7 +160,13 @@
       b.setAttribute('style','position:fixed;left:12px;bottom:212px;z-index:54;width:40px;height:40px;border-radius:50%;background:rgba(9,39,68,.85);color:#9df0c0;border:1px solid #35d49a;font:700 18px/1 system-ui,sans-serif;padding:0;margin:0;box-sizing:border-box;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)');
       document.body.appendChild(b);
       function sc(){return Math.max(document.body?document.body.scrollTop:0,document.documentElement.scrollTop||0)}
-      function onScroll(){b.style.display=sc()>600?'flex':'none'}
+      var idleT=null;
+      function onScroll(){
+        if(sc()<=600){b.style.display='none';clearTimeout(idleT);return}
+        b.style.display='none';
+        clearTimeout(idleT);
+        idleT=setTimeout(function(){if(sc()>600)b.style.display='flex'},700);
+      }
       window.addEventListener('scroll',onScroll,{passive:true});
       if(document.body)document.body.addEventListener('scroll',onScroll,{passive:true});
       b.addEventListener('click',function(){
