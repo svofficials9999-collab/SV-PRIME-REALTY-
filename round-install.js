@@ -51,6 +51,11 @@ b.addEventListener('click',function(){
  }
  note(helpText());
 });
+try{if(sessionStorage.getItem('svp.ri.hide')==='1')b.style.display='none'}catch(_){}
+var xb=document.createElement('span');xb.textContent='\u00D7';xb.setAttribute('role','button');xb.setAttribute('aria-label','Hide install button');
+xb.setAttribute('style','position:absolute;top:-4px;left:-4px;width:20px;height:20px;border-radius:50%;background:#06142b;color:#9fb6cf;border:1px solid #3b5a7a;font:700 12px/18px system-ui,sans-serif;text-align:center;cursor:pointer;z-index:2');
+xb.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();try{sessionStorage.setItem('svp.ri.hide','1')}catch(_){ }b.style.display='none'});
+b.appendChild(xb);
 document.body.appendChild(b);
 }catch(e){}
 });
