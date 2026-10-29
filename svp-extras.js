@@ -175,3 +175,67 @@
       });
       onScroll();
     })();
+    /* Prepayment calculator: extra monthly payment -> new tenure, time & interest saved. Injected after the existing EMI card and follows the EMI tab. Adds only. */
+    (function(){
+      function emiCard(){return document.getElementById('svx-emi')}
+      function fmt(n){return '\u20B9'+Math.round(n).toLocaleString('en-IN')}
+      function ym(m){var y=Math.floor(m/12),r=m%12;return y>0?(r>0?y+' yrs '+r+' mos':y+' yrs'):r+' mos'}
+      function sim(p,r,pay){
+        var i=r/1200,bal=p,m=0,g=0;
+        while(bal>0.5&&m<1200){
+          var it=bal*i;g+=it;
+          var pr=pay-it;if(pr<=0)return null;
+          if(pr>bal)pr=bal;
+          bal-=pr;m++;
+        }
+        return bal>0.5?null:{m:m,interest:g};
+      }
+      function calc(){
+        var err=document.getElementById('svp-pp-err'),out=document.getElementById('svp-pp-out');
+        var p=parseFloat(document.getElementById('svp-pp-p').value),
+            r=parseFloat(document.getElementById('svp-pp-r').value),
+            y=parseFloat(document.getElementById('svp-pp-n').value),
+            x=parseFloat(document.getElementById('svp-pp-x').value)||0;
+        err.hidden=true;out.hidden=true;
+        if(!(p>0)||!(r>=0)||!(y>=1)||y>40||x<0){
+          err.textContent='\u0C35\u0C3F\u0C35\u0C30\u0C3E\u0C32\u0C41 \u0C38\u0C30\u0C3F\u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F. Please check the values.';err.hidden=false;return;
+        }
+        var n=Math.round(y*12),i=r/1200;
+        var E=r>0?p*i/(1-Math.pow(1+i,-n)):p/n;
+        var base=sim(p,r,E),withX=sim(p,r,E+x);
+        if(!base||!withX){
+          err.textContent='\u0C08 \u0C35\u0C3F\u0C35\u0C30\u0C3E\u0C32\u0C24\u0C4B \u0C32\u0C46\u0C15\u0C4D\u0C15 \u0C15\u0C3E\u0C26\u0C41. Cannot compute with these values.';err.hidden=false;return;
+        }
+        var sm=base.m-withX.m,si=base.interest-withX.interest;
+        document.getElementById('svp-pp-new').textContent=ym(withX.m)+' ('+withX.m+' months)';
+        document.getElementById('svp-pp-time').textContent=sm>0?ym(sm):'0';
+        document.getElementById('svp-pp-save').textContent=fmt(si>0?si:0);
+        out.hidden=false;
+      }
+      function sync(emi){var s=document.getElementById('svp-prepay');if(s&&emi)s.hidden=emi.hidden}
+      function ensure(){
+        var emi=emiCard();if(!emi||!emi.parentNode)return;
+        var s=document.getElementById('svp-prepay');
+        if(s){sync(emi);return}
+        s=document.createElement('section');s.id='svp-prepay';s.className='svx-card';s.setAttribute('aria-label','Prepayment calculator');
+        s.hidden=emi.hidden;
+        s.innerHTML='<span class="svx-kicker">Home loan \u00B7 Prepayment</span>'
+          +'<h2>Prepayment Calculator \u00B7 \u0C2E\u0C41\u0C02\u0C26\u0C38\u0C4D\u0C24\u0C41 \u0C1A\u0C46\u0C32\u0C4D\u0C32\u0C3F\u0C02\u0C2A\u0C41</h2>'
+          +'<p class="svx-muted">\u0C2A\u0C4D\u0C30\u0C24\u0C3F \u0C28\u0C46\u0C32\u0C3E \u0C15\u0C4A\u0C02\u0C24 extra \u0C1A\u0C46\u0C32\u0C4D\u0C32\u0C3F\u0C38\u0C4D\u0C24\u0C47 \u0C0E\u0C02\u0C24 \u0C06\u0C26\u0C3E \u0C05\u0C35\u0C41\u0C24\u0C41\u0C02\u0C26\u0C4B \u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F. See what a small extra monthly payment saves. Indicative only - final figures depend on your bank.</p>'
+          +'<label class="svx-field">Loan amount (\u20B9) \u00B7 \u0C30\u0C41\u0C23 \u0C2E\u0C4A\u0C24\u0C4D\u0C24\u0C02<input id="svp-pp-p" type="number" inputmode="numeric" min="0" placeholder="e.g. 5000000" value="5000000"></label>'
+          +'<label class="svx-field">Interest rate (% per year) \u00B7 \u0C35\u0C21\u0C4D\u0C21\u0C40 \u0C30\u0C47\u0C1F\u0C41<input id="svp-pp-r" type="number" inputmode="decimal" min="0" step="0.05" placeholder="e.g. 8.5" value="8.5"></label>'
+          +'<label class="svx-field">Tenure (years) \u00B7 \u0C15\u0C3E\u0C32\u0C02 (\u0C38\u0C02\u0C35\u0C24\u0C4D\u0C38\u0C30\u0C3E\u0C32\u0C41)<input id="svp-pp-n" type="number" inputmode="numeric" min="1" max="40" placeholder="20" value="20"></label>'
+          +'<label class="svx-field">Extra per month (\u20B9) \u00B7 \u0C28\u0C46\u0C32\u0C15\u0C41 \u0C05\u0C26\u0C28\u0C2A\u0C41<input id="svp-pp-x" type="number" inputmode="numeric" min="0" placeholder="e.g. 5000" value="5000"></label>'
+          +'<p id="svp-pp-err" class="svx-err" role="alert" hidden></p>'
+          +'<button id="svp-pp-go" type="button" class="svx-btn">\u0C32\u0C46\u0C15\u0C4D\u0C15 \u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F \u00B7 Calculate</button>'
+          +'<div class="svx-emi-out" id="svp-pp-out" aria-live="polite" hidden>'
+          +'<span>\u0C15\u0C4A\u0C24\u0C4D\u0C24 tenure \u00B7 New tenure</span><span class="svx-big" id="svp-pp-new"></span>'
+          +'<span class="svx-row"><span>\u0C38\u0C2E\u0C2F\u0C02 \u0C06\u0C26\u0C3E \u00B7 Time saved</span><b id="svp-pp-time" style="color:#fff"></b></span>'
+          +'<span class="svx-row"><span>\u0C35\u0C21\u0C4D\u0C21\u0C40 \u0C06\u0C26\u0C3E \u00B7 Interest saved</span><b id="svp-pp-save" style="color:#fff"></b></span></div>';
+        emi.parentNode.insertBefore(s,emi.nextSibling);
+        s.querySelector('#svp-pp-go').addEventListener('click',calc);
+      }
+      var pend=false;
+      new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var e=emiCard();if(e){ensure();sync(e)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true});
+      ensure();
+    })();
