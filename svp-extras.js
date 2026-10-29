@@ -236,6 +236,6 @@
         s.querySelector('#svp-pp-go').addEventListener('click',calc);
       }
       var pend=false;
-      new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var e=emiCard();if(e){ensure();sync(e)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true});
+      new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var e=emiCard();if(e){ensure();sync(e)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','style','class']});
       ensure();
     })();
