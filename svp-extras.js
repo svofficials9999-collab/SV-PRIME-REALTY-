@@ -239,3 +239,44 @@
       new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var e=emiCard();if(e){ensure();sync(e)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','style','class']});
       ensure();
     })();
+    /* Rental yield calculator: property value + monthly rent -> annual rent and gross yield %. Injected after the prepayment card and follows the EMI tab. Adds only. */
+    (function(){
+      function anchor(){return document.getElementById('svp-prepay')||document.getElementById('svx-emi')}
+      function fmt(n){return '\u20B9'+Math.round(n).toLocaleString('en-IN')}
+      function calc(){
+        var err=document.getElementById('svp-ry-err'),out=document.getElementById('svp-ry-out');
+        var v=parseFloat(document.getElementById('svp-ry-v').value),
+            m=parseFloat(document.getElementById('svp-ry-m').value);
+        err.hidden=true;out.hidden=true;
+        if(!(v>0)||!(m>=0)){
+          err.textContent='\u0C35\u0C3F\u0C35\u0C30\u0C3E\u0C32\u0C41 \u0C38\u0C30\u0C3F\u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F. Please check the values.';err.hidden=false;return;
+        }
+        var annual=m*12,y=annual/v*100;
+        document.getElementById('svp-ry-annual').textContent=fmt(annual);
+        document.getElementById('svp-ry-yield').textContent=(Math.round(y*100)/100).toLocaleString('en-IN')+'%';
+        out.hidden=false;
+      }
+      function sync(a){var s=document.getElementById('svp-rentyield');if(s&&a)s.hidden=a.hidden}
+      function ensure(){
+        var a=anchor();if(!a||!a.parentNode)return;
+        var s=document.getElementById('svp-rentyield');
+        if(s){sync(a);return}
+        s=document.createElement('section');s.id='svp-rentyield';s.className='svx-card';s.setAttribute('aria-label','Rental yield calculator');
+        s.hidden=a.hidden;
+        s.innerHTML='<span class="svx-kicker">Investment \u00B7 Rent</span>'
+          +'<h2>Rental Yield Calculator \u00B7 \u0C05\u0C21\u0C4D\u0C21\u0C46 \u0C32\u0C3E\u0C2D\u0C02</h2>'
+          +'<p class="svx-muted">\u0C2E\u0C40 \u0C2A\u0C4D\u0C30\u0C3E\u0C2A\u0C30\u0C4D\u0C1F\u0C40 \u0C05\u0C21\u0C4D\u0C21\u0C46 \u0C0E\u0C02\u0C24 \u0C32\u0C3E\u0C2D\u0C02 \u0C07\u0C38\u0C4D\u0C24\u0C41\u0C02\u0C26\u0C4B \u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F. See what yearly return your rent gives. Indicative only - maintenance, tax and vacancy not included.</p>'
+          +'<label class="svx-field">Property value (\u20B9) \u00B7 \u0C2A\u0C4D\u0C30\u0C3E\u0C2A\u0C30\u0C4D\u0C1F\u0C40 \u0C35\u0C3F\u0C32\u0C41\u0C35<input id="svp-ry-v" type="number" inputmode="numeric" min="0" placeholder="e.g. 5000000" value="5000000"></label>'
+          +'<label class="svx-field">Monthly rent (\u20B9) \u00B7 \u0C28\u0C46\u0C32\u0C3E \u0C05\u0C21\u0C4D\u0C21\u0C46<input id="svp-ry-m" type="number" inputmode="numeric" min="0" placeholder="e.g. 15000" value="15000"></label>'
+          +'<p id="svp-ry-err" class="svx-err" role="alert" hidden></p>'
+          +'<button id="svp-ry-go" type="button" class="svx-btn">\u0C32\u0C46\u0C15\u0C4D\u0C15 \u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F \u00B7 Calculate</button>'
+          +'<div class="svx-emi-out" id="svp-ry-out" aria-live="polite" hidden>'
+          +'<span>\u0C17\u0C4D\u0C30\u0C3E\u0C38\u0C4D yield \u00B7 Gross yield</span><span class="svx-big" id="svp-ry-yield"></span>'
+          +'<span class="svx-row"><span>\u0C38\u0C3E\u0C02\u0C35\u0C24\u0C4D\u0C38\u0C30 \u0C05\u0C21\u0C4D\u0C21\u0C46 \u00B7 Annual rent</span><b id="svp-ry-annual" style="color:#fff"></b></span></div>';
+        a.parentNode.insertBefore(s,a.nextSibling);
+        s.querySelector('#svp-ry-go').addEventListener('click',calc);
+      }
+      var pend=false;
+      new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var a=anchor();if(a){ensure();sync(a)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','style','class']});
+      ensure();
+    })();
