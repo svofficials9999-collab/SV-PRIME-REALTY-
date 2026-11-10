@@ -1,4 +1,5 @@
 (()=>{'use strict';
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/pwa-sw.js',{updateViaCache:'none'}).catch(()=>{}));
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),T=(en,te)=>document.documentElement.lang==='te'?te:en;
 let user=null,csrf=null,currentTab='listings',team=[],allListings=[],leads=[],publicListings=[],photos=[],loginMode='login';
 const dialog=document.createElement('dialog');dialog.id='deskDialog';dialog.innerHTML='<div class="dialog-top"><span>SV PRIME REALTY · PRIVATE DESK</span><button id="closeDesk">Close ×</button></div><div id="deskBody"></div>';document.body.append(dialog);$('#closeDesk').onclick=()=>{dialog.close();if(location.hash==='#account')history.replaceState(null,'',location.pathname+location.search)};
