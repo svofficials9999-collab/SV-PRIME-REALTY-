@@ -1,0 +1,8 @@
+{
+  "name": "sv-prime-portal",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-10",
+  "assets": {"directory": "./public", "binding": "ASSETS", "run_worker_first": ["/api/*", "/setup"]},
+  "d1_databases": [{"binding": "DB", "database_name": "sv-prime-portal-db", "database_id": "937e8fa6-7d07-4daf-93d4-27ef0fead004"}],
+  "observability": {"enabled": false}
+}
