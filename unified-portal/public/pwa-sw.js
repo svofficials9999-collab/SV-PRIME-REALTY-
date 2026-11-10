@@ -1,1 +1,1 @@
-self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
+self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const key of await caches.keys()){if(/^svprime-portal-|^sv-prime-portal-/.test(key))await caches.delete(key)}await self.clients.claim()})()));
