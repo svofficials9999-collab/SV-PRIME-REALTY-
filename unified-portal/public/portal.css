@@ -11,3 +11,5 @@
 @media(max-width:600px){html{scroll-padding-top:155px}}
 
 @media(max-width:600px){html{scroll-padding-top:190px}}
+
+.research-sources{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.research-source{display:block;border:1px solid #cfdfdf;border-radius:9px;padding:16px;text-decoration:none;overflow-wrap:anywhere}.research-source strong,.research-source span{display:block}.research-source span{font-size:13px;margin-top:8px;color:var(--muted)}.research-note{white-space:pre-wrap}
