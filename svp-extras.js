@@ -280,3 +280,53 @@
       new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var a=anchor();if(a){ensure();sync(a)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','style','class']});
       ensure();
     })();
+    /* Loan eligibility calculator: income + existing EMIs + rate + tenure -> max affordable EMI and indicative eligible loan. Injected after the rental-yield card and follows the EMI tab. Adds only. */
+    (function(){
+      function anchor(){return document.getElementById('svp-rentyield')||document.getElementById('svp-prepay')||document.getElementById('svx-emi')}
+      function fmt(n){return '\u20B9'+Math.round(n).toLocaleString('en-IN')}
+      function calc(){
+        var err=document.getElementById('svp-el-err'),out=document.getElementById('svp-el-out');
+        var inc=parseFloat(document.getElementById('svp-el-inc').value),
+            ex=parseFloat(document.getElementById('svp-el-ex').value)||0,
+            rate=parseFloat(document.getElementById('svp-el-r').value),
+            yrs=parseFloat(document.getElementById('svp-el-t').value);
+        err.hidden=true;out.hidden=true;
+        if(!(inc>0)||!(rate>=0)||!(yrs>0)||ex<0){
+          err.textContent='\u0C35\u0C3F\u0C35\u0C30\u0C3E\u0C32\u0C41 \u0C38\u0C30\u0C3F\u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F. Please check the values.';err.hidden=false;return;
+        }
+        var maxEmi=inc*0.5-ex;
+        if(!(maxEmi>0)){
+          err.textContent='\u0C2A\u0C4D\u0C30\u0C38\u0C4D\u0C24\u0C41\u0C24 EMI \u0C32\u0C41 \u0C05\u0C27\u0C3F\u0C15\u0C02. Existing EMIs are too high for this income.';err.hidden=false;return;
+        }
+        var i=rate/1200,n=Math.round(yrs*12);
+        var loan=i>0?maxEmi*(1-Math.pow(1+i,-n))/i:maxEmi*n;
+        document.getElementById('svp-el-emi').textContent=fmt(maxEmi);
+        document.getElementById('svp-el-loan').textContent=fmt(loan);
+        out.hidden=false;
+      }
+      function sync(a){var s=document.getElementById('svp-elig');if(s&&a)s.hidden=a.hidden}
+      function ensure(){
+        var a=anchor();if(!a||!a.parentNode)return;
+        var s=document.getElementById('svp-elig');
+        if(s){sync(a);return}
+        s=document.createElement('section');s.id='svp-elig';s.className='svx-card';s.setAttribute('aria-label','Loan eligibility calculator');
+        s.hidden=a.hidden;
+        s.innerHTML='<span class="svx-kicker">Home Loan \u00B7 Eligibility</span>'
+          +'<h2>Loan Eligibility \u00B7 \u0C32\u0C4B\u0C28\u0C4D \u0C05\u0C30\u0C4D\u0C39\u0C24</h2>'
+          +'<p class="svx-muted">\u0C2E\u0C40 \u0C06\u0C26\u0C3E\u0C2F\u0C3E\u0C28\u0C3F\u0C15\u0C3F \u0C0E\u0C02\u0C24 \u0C32\u0C4B\u0C28\u0C4D \u0C35\u0C38\u0C4D\u0C24\u0C41\u0C02\u0C26\u0C4B \u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F. See how much loan your income can support. Indicative only - bank approval depends on credit score and other factors.</p>'
+          +'<label class="svx-field">Monthly income (\u20B9) \u00B7 \u0C28\u0C46\u0C32 \u0C06\u0C26\u0C3E\u0C2F\u0C02<input id="svp-el-inc" type="number" inputmode="numeric" min="0" placeholder="e.g. 100000" value="100000"></label>'
+          +'<label class="svx-field">Existing EMIs (\u20B9) \u00B7 \u0C2A\u0C4D\u0C30\u0C38\u0C4D\u0C24\u0C41\u0C24 EMI \u0C32\u0C41<input id="svp-el-ex" type="number" inputmode="numeric" min="0" placeholder="e.g. 0" value="0"></label>'
+          +'<label class="svx-field">Interest rate (% per year) \u00B7 \u0C35\u0C21\u0C4D\u0C21\u0C40 \u0C30\u0C47\u0C1F\u0C41<input id="svp-el-r" type="number" inputmode="decimal" min="0" step="0.05" placeholder="e.g. 8.5" value="8.5"></label>'
+          +'<label class="svx-field">Tenure (years) \u00B7 \u0C15\u0C3E\u0C32\u0C02 (\u0C38\u0C02\u0C35\u0C24\u0C4D\u0C38\u0C30\u0C3E\u0C32\u0C41)<input id="svp-el-t" type="number" inputmode="numeric" min="1" max="30" placeholder="e.g. 20" value="20"></label>'
+          +'<p id="svp-el-err" class="svx-err" role="alert" hidden></p>'
+          +'<button id="svp-el-go" type="button" class="svx-btn">\u0C32\u0C46\u0C15\u0C4D\u0C15 \u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F \u00B7 Calculate</button>'
+          +'<div class="svx-emi-out" id="svp-el-out" aria-live="polite" hidden>'
+          +'<span>\u0C05\u0C02\u0C1A\u0C28\u0C3E \u0C32\u0C4B\u0C28\u0C4D \u00B7 Eligible loan</span><span class="svx-big" id="svp-el-loan"></span>'
+          +'<span class="svx-row"><span>\u0C2E\u0C40\u0C30\u0C41 \u0C1A\u0C46\u0C32\u0C4D\u0C32\u0C3F\u0C02\u0C1A\u0C17\u0C32 EMI \u00B7 Max EMI you can pay</span><b id="svp-el-emi" style="color:#fff"></b></span></div>';
+        a.parentNode.insertBefore(s,a.nextSibling);
+        s.querySelector('#svp-el-go').addEventListener('click',calc);
+      }
+      var pend=false;
+      new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var a=anchor();if(a){ensure();sync(a)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','style','class']});
+      ensure();
+    })();
