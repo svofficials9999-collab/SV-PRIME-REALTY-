@@ -330,3 +330,46 @@
       new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var a=anchor();if(a){ensure();sync(a)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','style','class']});
       ensure();
     })();
+    /* Plot price calculator: area (sq yds) x rate per sq yd -> total price, shown in rupees and lakhs/crores. Injected after the loan-eligibility card and follows the EMI tab. Adds only. */
+    (function(){
+      function anchor(){return document.getElementById('svp-elig')||document.getElementById('svp-rentyield')||document.getElementById('svp-prepay')||document.getElementById('svx-emi')}
+      function fmt(n){return '\u20B9'+Math.round(n).toLocaleString('en-IN')}
+      function calc(){
+        var err=document.getElementById('svp-pc-err'),out=document.getElementById('svp-pc-out');
+        var a=parseFloat(document.getElementById('svp-pc-a').value),
+            r=parseFloat(document.getElementById('svp-pc-r').value);
+        err.hidden=true;out.hidden=true;
+        if(!(a>0)||!(r>=0)){
+          err.textContent='\u0C35\u0C3F\u0C35\u0C30\u0C3E\u0C32\u0C41 \u0C38\u0C30\u0C3F\u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F. Please check the values.';err.hidden=false;return;
+        }
+        var total=a*r;
+        document.getElementById('svp-pc-total').textContent=fmt(total);
+        document.getElementById('svp-pc-lc').textContent=total>=10000000
+          ?(Math.round(total/10000000*100)/100).toLocaleString('en-IN')+' \u0C15\u0C4B\u0C1F\u0C4D\u0C32\u0C41 / Cr'
+          :(Math.round(total/100000*10)/10).toLocaleString('en-IN')+' \u0C32\u0C15\u0C4D\u0C37\u0C32\u0C41 / lakhs';
+        out.hidden=false;
+      }
+      function sync(a){var s=document.getElementById('svp-plotcalc');if(s&&a)s.hidden=a.hidden}
+      function ensure(){
+        var a=anchor();if(!a||!a.parentNode)return;
+        var s=document.getElementById('svp-plotcalc');
+        if(s){sync(a);return}
+        s=document.createElement('section');s.id='svp-plotcalc';s.className='svx-card';s.setAttribute('aria-label','Plot price calculator');
+        s.hidden=a.hidden;
+        s.innerHTML='<span class="svx-kicker">Plots \u00B7 Price</span>'
+          +'<h2>Plot Price Calculator \u00B7 \u0C2A\u0C4D\u0C32\u0C3E\u0C1F\u0C4D \u0C27\u0C30 \u0C32\u0C46\u0C15\u0C4D\u0C15</h2>'
+          +'<p class="svx-muted">\u0C2E\u0C40 \u0C2A\u0C4D\u0C32\u0C3E\u0C1F\u0C4D \u0C27\u0C30 \u0C0E\u0C02\u0C24 \u0C05\u0C35\u0C41\u0C24\u0C41\u0C02\u0C26\u0C4B \u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F. See the total price for your plot area and rate. Indicative only - final price as per the developer\u2019s quote.</p>'
+          +'<label class="svx-field">Plot area (sq yds) \u00B7 \u0C2A\u0C4D\u0C32\u0C3E\u0C1F\u0C4D \u0C35\u0C3F\u0C38\u0C4D\u0C24\u0C40\u0C30\u0C4D\u0C23\u0C02 (\u0C17\u0C1C\u0C3E\u0C32\u0C41)<input id="svp-pc-a" type="number" inputmode="numeric" min="0" placeholder="e.g. 200" value="200"></label>'
+          +'<label class="svx-field">Rate per sq yd (\u20B9) \u00B7 \u0C17\u0C1C\u0C3E\u0C28\u0C3F\u0C15\u0C3F \u0C27\u0C30<input id="svp-pc-r" type="number" inputmode="numeric" min="0" placeholder="e.g. 25000" value="25000"></label>'
+          +'<p id="svp-pc-err" class="svx-err" role="alert" hidden></p>'
+          +'<button id="svp-pc-go" type="button" class="svx-btn">\u0C32\u0C46\u0C15\u0C4D\u0C15 \u0C1A\u0C42\u0C21\u0C02\u0C21\u0C3F \u00B7 Calculate</button>'
+          +'<div class="svx-emi-out" id="svp-pc-out" aria-live="polite" hidden>'
+          +'<span>\u0C2E\u0C4A\u0C24\u0C4D\u0C24\u0C02 \u0C27\u0C30 \u00B7 Total price</span><span class="svx-big" id="svp-pc-total"></span>'
+          +'<span class="svx-row"><span>\u0C32\u0C15\u0C4D\u0C37\u0C32\u0C41/\u0C15\u0C4B\u0C1F\u0C4D\u0C32\u0C41 \u00B7 In lakhs/crores</span><b id="svp-pc-lc" style="color:#fff"></b></span></div>';
+        a.parentNode.insertBefore(s,a.nextSibling);
+        s.querySelector('#svp-pc-go').addEventListener('click',calc);
+      }
+      var pend=false;
+      new MutationObserver(function(){if(pend)return;pend=true;setTimeout(function(){pend=false;try{var a=anchor();if(a){ensure();sync(a)}}catch(x){}},250)}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','style','class']});
+      ensure();
+    })();
